@@ -1,0 +1,174 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialdesigninxaml="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Style x:Key="VoidButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Cursor" Value="Hand"/>
+       
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0" Height="35">
+                        <ContentPresenter HorizontalAlignment="Left" 
+                                      VerticalAlignment="Center"
+                                      Margin="15 0 0 0"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#B0C4DE"/>
+                        </Trigger>
+
+      
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#253544"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LinkTextBlock" TargetType="TextBlock">
+        <Setter Property="Text" Value="→ перейти"/>
+        <Setter Property="Foreground" Value="#4FC3F7"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="0 8 0 0"/>
+        <Setter Property="TextDecorations" Value="Underline"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#0288D1"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TabCard" TargetType="materialdesigninxaml:Card">
+        <Setter Property="UniformCornerRadius" Value="12"/>
+        <Setter Property="Margin" Value="0 10 10 0"/>
+    </Style>
+
+    <Style x:Key="LinkTextBlockRed" TargetType="TextBlock" BasedOn="{StaticResource LinkTextBlock}">
+        <Setter Property="Foreground" Value="#FF4444"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#CC0000"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LinkTextBlockYellow" TargetType="TextBlock" BasedOn="{StaticResource LinkTextBlock}">
+        <Setter Property="Foreground" Value="#FFB300"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F57C00"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--<Style x:Key="ButtonBaseAction" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Width" Value="28"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" ShadowDepth="0" Opacity="0.6"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Opacity="1" ShadowDepth="1"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ButtonBook" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Просмотр"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="Book"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonEdit" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Редактировать"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="Pencil"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonCreateOrder" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Создание заказа"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="ListBox"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonArchive" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Архивировать"/>
+        <Setter Property="Foreground" Value="#FF6666"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="trashcan"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonRecover" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Восстановить"/>
+        <Setter Property="Foreground" Value="#4FC3F7"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="Restore"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonConfirm" TargetType="Button" BasedOn="{StaticResource ButtonBaseAction}">
+        <Setter Property="ToolTip" Value="Подтвердить"/>
+        <Setter Property="Foreground" Value="#4CAF50"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <materialdesigninxaml:PackIcon Kind="Check"/>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+</ResourceDictionary>

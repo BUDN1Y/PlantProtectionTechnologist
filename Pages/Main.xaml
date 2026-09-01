@@ -1,0 +1,396 @@
+﻿<Page x:Class="PlantProtectionTechnologist.Pages.Main"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PlantProtectionTechnologist.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="900"
+      Title="Main">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Grid Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#1A2332" Grid.Column="0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+
+                    <Ellipse Width="60" Height="60">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/Resources/LogoFactory.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Factory Industry" VerticalAlignment="Bottom" Grid.Column="1" FontSize="18" Foreground="White">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="White" BlurRadius="10" ShadowDepth="0" Opacity="0.4"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <Rectangle Fill="Gold" Height="2" Width="160" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Rectangle Height="1" Fill="white" Opacity="0.6" Margin="0 10 0 10"/>
+
+
+
+                <!--Вкладка главная-->
+                <Grid Name="mainTab">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0.25"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="0">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Home" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Главная"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+                <!--Продукция-->
+                <Grid Name="production">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0" Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="1">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="PackageVariant" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Продукция"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+                <!--Рецептура-->
+                <Grid Name="recipes">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="2">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ListBox" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Рецептуры"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--Технологические карты-->
+                <Grid Name="technologicalMaps">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="3">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Gear" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Технологические карты"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--Производственные заказы-->
+                <Grid Name="productionOrders">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="4">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="FileDocument" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Производственные заказы"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+                <!--Производственные партии-->
+                <Grid Name="productionBatches">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="5">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Factory" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Производственные партии"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+                <!--Программы экструдера-->
+                <Grid Name="extruderPrograms">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="6">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Tune" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Программы экструдера"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--Программы экструдера-->
+                <Grid Name="deviationsEvents">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="7">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Alert" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Отклонения и события"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--Отчеты-->
+                <Grid Name="reports">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Width="3" Fill="#4FC3F7" Grid.Column="0"  Visibility="Hidden">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="Blue" BlurRadius="30" Opacity="0.8" ShadowDepth="0"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Button Style="{StaticResource VoidButton}" Click="PageSwitch_Click" Tag="8">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ChartBar" Margin="0 0 5 0"/>
+                                        <TextBlock Text="Отчеты"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+
+        <!--Вторая половина-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <!--Шапка-->
+            <materialDesign:Card Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="450"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="{Binding tipImage}" Width="18" Height="18" Margin="0 5 0 0"/>
+                        <TextBlock Text="{Binding tipText1}" FontSize="18"/>
+                        <TextBlock Text="{Binding tipText2}" Foreground="#666" FontSize="18" Margin="10 0 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Button Background="White" BorderBrush="Transparent">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Bell"/>
+                            </Button.Content>
+                        </Button>
+
+
+                        <Grid Margin="5 0 0 0">
+                            <Ellipse StrokeThickness="2" Stroke="Black" Width="30" Height="30"/>
+                            <materialDesign:PackIcon Kind="User" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="20"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="ФИО???"/>
+                            <TextBlock Grid.Row="1" Text="Технолог | Технологический отдел"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderBrush="Transparent">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </materialDesign:Card>
+
+            <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="tabFrame"/>
+        </Grid>
+
+    </Grid>
+</Page>
