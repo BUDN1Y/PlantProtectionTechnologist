@@ -20,13 +20,13 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Редактирование" Tag="1" Click="ManagerActions">
+                <!--<Button Background="White" BorderBrush="Transparent" ToolTip="Редактирование" Tag="1" Click="ManagerActions">
                     <Button.Content>
                         <materialDesign:PackIcon Kind="pencil"/>
                     </Button.Content>
-                </Button>
+                </Button>-->
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Создать заказ" Tag="2" Click="ManagerActions">
+                <Button Background="White" BorderBrush="Transparent" ToolTip="Создать заказ" Tag="4" Click="ManagerActions">
                     <Button.Content>
                         <materialDesign:PackIcon Kind="ListBox"/>
                     </Button.Content>
@@ -49,7 +49,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Восстановить" Tag="4" Click="ManagerActions">
+                <Button Background="White" BorderBrush="Transparent" ToolTip="Восстановить" Tag="2" Click="ManagerActions">
                     <Button.Content>
                         <materialDesign:PackIcon Kind="Restore" Foreground="#4FC3F7"/>
                     </Button.Content>
@@ -67,7 +67,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="5" Click="ManagerActions"> 
+                <Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="9" Click="ManagerActions"> <!--9-->
                     <Button.Content>
                         <materialDesign:PackIcon Kind="Check" Foreground="#4CAF50"/>
                     </Button.Content>
@@ -97,11 +97,11 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="5" Click="ManagerActions">
+                <!--<Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="5" Click="ManagerActions">
                     <Button.Content>
                         <materialDesign:PackIcon Kind="Check" Foreground="#4CAF50"/>
                     </Button.Content>
-                </Button>
+                </Button>-->
 
                 <Button Background="White" BorderBrush="Transparent" ToolTip="Архивировать" Tag="3" Click="ManagerActions">
                     <Button.Content>

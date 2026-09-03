@@ -18,7 +18,7 @@ namespace PlantProtectionTechnologist
     {
         private List<ProductDto> _dataProduction;
         string[] typeProductName = new string[] { "Гербицид", "Инсектицид", "Фунгицид", "Регулятор роста", "Протравитель" };
-        string[] releaseFormProductName = new string[] { "Эмульсия", "Порошок", "Суспензия", "Гранулы" };
+        public string[] releaseFormProductName = new string[] { "Эмульсия", "Порошок", "Суспензия", "Гранулы", "Жидкость" };
         public readonly (string prefixNameAbbreviation, string? prefixNameDecoding)[] prefixName;
 
         public string textPrefix;
@@ -48,7 +48,7 @@ namespace PlantProtectionTechnologist
         {
             this._dataProduction = dataProduction;
             _typeProduct = typeProduct;
-            _releaseFormProduct = releaseFormProduct; 
+            _releaseFormProduct = releaseFormProduct;
 
             prefixName = new (string, string?)[]
             {
@@ -92,7 +92,7 @@ namespace PlantProtectionTechnologist
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void typeProduct_SelectionChanged()
+        public void typeProduct_SelectionChanged(string? tipeProductFirst = null, string? code = null)
         {
             ComboBox comboBox = _typeProduct;
 
@@ -100,13 +100,17 @@ namespace PlantProtectionTechnologist
 
             confirmationTypeProduct = prefixName[selectedIndex].prefixNameDecoding;
 
+            if (string.Equals(confirmationTypeProduct, tipeProductFirst, StringComparison.OrdinalIgnoreCase))
+            {
+                textCode = $"{code}";               
+                return;  
+            }
             SelectTextCode(selectedIndex);
         }
 
         public void releaseFormProduct_SelectionChanged()
         {
             ComboBox comboBox = _releaseFormProduct;
-
             int selectedIndex = comboBox.SelectedIndex;
 
             confirmationReleaseForm = (selectedIndex == 0) ? null : comboBox.SelectedItem.ToString();
@@ -140,6 +144,6 @@ namespace PlantProtectionTechnologist
             result += countPrefix;
             return result;
         }
-        
+
     }
 }

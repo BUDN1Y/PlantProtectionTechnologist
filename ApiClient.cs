@@ -109,6 +109,60 @@ namespace PlantProtectionTechnologist
             }
         }
 
+        public async Task<bool> EditProduct(ConfirmationProduct editProduct)
+        {
+            try
+            {
+                string url = $"editProduct";
 
+                HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, editProduct);
+
+                if(response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка");
+                    return false;
+                }
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show($"{ex}");
+                return false;
+            }
+        }
+
+        public async Task<bool> ChangetStatusProduct(ConfirmationProduct? editProduct)
+        {
+            try
+            {
+                if(editProduct == null)
+                {
+                    return false;
+                }
+
+                string url = $"changetStatusProduct";
+
+                HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, editProduct);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return false;
+            }
+
+        }
     }
 }

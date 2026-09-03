@@ -144,6 +144,7 @@ namespace PlantProtectionTechnologist.Pages
             parentGrid.Effect = new BlurEffect() { Radius = 0 };
             Loaded.Visibility = Visibility.Collapsed;
             parentGrid.IsHitTestVisible = true;
+            Navigate.tabFrame.Navigate(new Production());
         }
     }
 }

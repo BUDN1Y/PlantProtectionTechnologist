@@ -43,6 +43,10 @@ namespace PlantProtectionTechnologist
         List<ProductDto> dataProduction = new List<ProductDto>();
         List<ProductDto> dataProductionBuffer = new List<ProductDto>();
 
+        ApiClient apiClient = new ApiClient();
+
+        string[] filterTypeName = new string[] { "Все типы", "Гербицид", "Инсектицид", "Фунгицид", "Регулятор роста", "Протравитель" };
+
         bool isLoaded = false;
         public Production()
         {
@@ -51,12 +55,10 @@ namespace PlantProtectionTechnologist
 
             Loaded.Loaded += Window_Loaded;
 
-            filterType.Items.Add("Все типы");
-            filterType.Items.Add("Гербицид");
-            filterType.Items.Add("Инсектицид");
-            filterType.Items.Add("Фунгицид");
-            filterType.Items.Add("Регулятор роста");
-            filterType.Items.Add("Протравитель");
+            foreach (var item in filterTypeName)
+            {
+                filterType.Items.Add(item);
+            }
 
             filterType.SelectedIndex = 0;
 
@@ -106,23 +108,32 @@ namespace PlantProtectionTechnologist
 
         private async void GetDataDb()
         {
-            _timer.Start();
-            parentGrid.Effect = new BlurEffect() { Radius = 5 };
-            Loaded.Visibility = Visibility.Visible;
-            parentGrid.IsHitTestVisible = false;
+            try
+            {
+                _timer.Start();
+                parentGrid.Effect = new BlurEffect() { Radius = 5 };
+                Loaded.Visibility = Visibility.Visible;
+                parentGrid.IsHitTestVisible = false;
 
-            ApiClient apiClient = new ApiClient();
-            ProductDto[] result = await apiClient.GetDataProduction();
-            dataProduction = result.ToList();
-            dataProductionBuffer = dataProduction.ToList();
+                ApiClient apiClient = new ApiClient();
+                ProductDto[] result = await apiClient.GetDataProduction();
+                dataProduction = result.ToList();
+                dataProductionBuffer = dataProduction.ToList();
 
-            productsDataGrid.ItemsSource = dataProduction;
+                productsDataGrid.ItemsSource = dataProduction;
 
-            _timer.Stop();
-            parentGrid.IsHitTestVisible = true;
-            parentGrid.Effect = new BlurEffect() { Radius = 0 };
-            Loaded.Visibility = Visibility.Collapsed;
-
+                _timer.Stop();
+                parentGrid.IsHitTestVisible = true;
+                parentGrid.Effect = new BlurEffect() { Radius = 0 };
+                Loaded.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                _timer.Stop();
+                parentGrid.IsHitTestVisible = true;
+                parentGrid.Effect = new BlurEffect() { Radius = 0 };
+                Loaded.Visibility = Visibility.Collapsed;
+            }
         }
 
 
@@ -255,31 +266,48 @@ namespace PlantProtectionTechnologist
             }
         }
 
-        private void ManagerActions(object sender, RoutedEventArgs e)
+        private async void ManagerActions(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
             var selectedProduct = btn.DataContext as ProductDto;
 
-          
-                
             if (btn != null)
             {
                 int? tag = Convert.ToInt32(btn.Tag);
 
                 switch (tag)
                 {
-                    //case 0:
-                    //    Navigate.tabFrame.Navigate(new Edit(dataProduction));
-                    //    break;
+                    case 0:
+                        Navigate.tabFrame.Navigate(new Viewing(selectedProduct));
+                        break;
 
                     case 1:
                         Navigate.tabFrame.Navigate(new Edit(dataProduction, selectedProduct));
                         break;
+
+                    
+
                     default:
                         MessageBox.Show("Отсутствует");
                         break;
                 }
 
+                if(tag == 2 || tag == 3 || tag == 9)
+                {
+                    MessageBox.Show($"{selectedProduct.activeRecipeId} {selectedProduct.activeTechMapId}");
+                    ConfirmationProduct product = new ConfirmationProduct()
+                    {
+                        recipe = selectedProduct.activeRecipeId,
+                        techcard = selectedProduct.activeTechMapId,
+                        id = selectedProduct.id,
+                        code = selectedProduct.code,
+                        oldStatus = selectedProduct.statusId,
+                        status = tag.Value
+                    };
+                   await apiClient.ChangetStatusProduct(product);
+                    Navigate.tabFrame.Navigate(new Production());
+                }
+                //9 удалить 2 восстановить 3 подтвердить
             }
         }
     }

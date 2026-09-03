@@ -28,34 +28,35 @@ namespace PlantProtectionTechnologist.Pages.ProductActions
         private CircleAnimator _circleAnimator;
         private DispatcherTimer _timer;
 
-        ConfirmationProduct newProduct;
+        ConfirmationProduct editProduct;
         bool isLoaded = false;
 
         ApiClient apiClient = new ApiClient();
 
         VisualAddEditProduct visua;
 
+        private string? _tipeProductFirst;
+        private string? _textCode;
+
         public Edit(List<ProductDto> dataProduction, ProductDto selectedProduct)
         {
             InitializeComponent();
 
-
-
-           
-
+            _tipeProductFirst = selectedProduct.type;
+            _textCode = selectedProduct.code;
             visua = new VisualAddEditProduct(dataProduction, typeProduct, releaseFormProduct)
             {
-                textCode = selectedProduct.code,
+                textCode = _textCode,
                 textName = selectedProduct.name.Split("\"")[1],
                 confirmationTypeProduct = selectedProduct.type,
                 confirmationReleaseForm = selectedProduct.releaseForm,
                 confirmationComment = selectedProduct.comment
-
             };
-            int index = Array.FindIndex(visua.prefixName, x =>string.Equals(x.prefixNameDecoding, visua.confirmationTypeProduct, StringComparison.OrdinalIgnoreCase));
+
+            int index = Array.FindIndex(visua.prefixName, x => string.Equals(x.prefixNameDecoding, visua.confirmationTypeProduct, StringComparison.OrdinalIgnoreCase)); //Ищет в combobox нужное слово
             typeProduct.SelectedIndex = index;
-
-
+            index = Array.FindIndex(visua.releaseFormProductName, x => string.Equals(x, visua.confirmationReleaseForm, StringComparison.OrdinalIgnoreCase));
+            releaseFormProduct.SelectedIndex = index;
 
 
             DataContext = visua;
@@ -89,7 +90,7 @@ namespace PlantProtectionTechnologist.Pages.ProductActions
         private void typeProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsLoaded) return;
-            visua.typeProduct_SelectionChanged();
+            visua.typeProduct_SelectionChanged(_tipeProductFirst, _textCode);
         }
         private void releaseFormProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -108,11 +109,65 @@ namespace PlantProtectionTechnologist.Pages.ProductActions
         }
         private async void Confirmation_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                confirmation.Visibility = Visibility.Collapsed;
+                _timer.Start();
+                Loaded.Visibility = Visibility.Visible;
+                parentGrid.IsHitTestVisible = false;
 
+                await apiClient.EditProduct(editProduct);
+
+                _timer.Stop();
+                parentGrid.Effect = new BlurEffect() { Radius = 0 };
+                Loaded.Visibility = Visibility.Collapsed;
+                parentGrid.IsHitTestVisible = true;
+
+                Navigate.tabFrame.Navigate(new Production());
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
+            }
         }
         private async void Handling_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = new Button();
+            if (btn != null)
+            {
+                if (string.IsNullOrEmpty(nameProduct.Text))
+                {
+                    nameProduct.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4444"));
+                    requiredField.Visibility = Visibility.Visible;
+                    return;
+                }
+                if (visua.confirmationTypeProduct == "Отсутствует")
+                {
+                    if (visua.confirmationTypeProduct == "Отсутствует")
+                        visua.confirmationTypeProduct = null;
+                }
 
+                string name = $"{visua.confirmationTypeProduct} \"{nameProduct.Text}\"";
+                visua.textName = name;
+                visua.confirmationComment = commentsProduct.Text;
+
+
+                editProduct = new ConfirmationProduct()
+                {
+                    oldCode = _textCode,
+                    code = visua.textCode,
+                    name = name,
+                    type = visua.confirmationTypeProduct,
+                    releaseForm = visua.confirmationReleaseForm,
+                    comment = visua.confirmationComment,
+                };
+                visua.confirmationReleaseForm = (visua.confirmationReleaseForm == null) ? "Отсутствует" : visua.confirmationReleaseForm;
+                visua.confirmationTypeProduct = (visua.confirmationTypeProduct == null) ? "Отсутствует" : visua.confirmationTypeProduct;
+
+                confirmation.Visibility = Visibility.Visible;
+                parentGrid.IsHitTestVisible = false;
+                parentGrid.Effect = new BlurEffect() { Radius = 15 };
+            }
         }
     }
 }

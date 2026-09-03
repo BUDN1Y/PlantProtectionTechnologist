@@ -8,7 +8,7 @@ namespace PlantProtectionTechnologist.ApiGetCs
 {
     public class ProductDto
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string code { get; set; } = null!;
         public string name { get; set; } = null!;
         public string? type { get; set; }

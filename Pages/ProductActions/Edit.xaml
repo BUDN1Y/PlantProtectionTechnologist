@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PlantProtectionTechnologist.Pages.ProductActions"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="650" d:DesignWidth="800"
       Title="Edit">
 
     <Grid>
@@ -263,7 +263,7 @@
                                              Kind="HelpCircle" 
                                              Grid.Column="0" 
                                              VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding confirmationStatus}" 
+                                <TextBlock Text="Подтвердить изменения?" 
                                Grid.Column="1" 
                                Margin="10,0,0,0" 
                                FontWeight="SemiBold" 
