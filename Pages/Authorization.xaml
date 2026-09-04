@@ -10,77 +10,88 @@
       Title="Authorization" KeepAlive="False">
 
     <Grid>
-        <Grid Background="White" Name="parentGrid" IsHitTestVisible="True" >
+        <Border x:Name="blurBorder">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid Background="White" Name="parentGrid" IsHitTestVisible="True" >
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1.1*" />
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-
-
-            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.1*" />
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition />
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Column="0" Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Source="/Resources/LogoFactory.png" Height="60" Width="60" Grid.Column="0"/>
 
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Factory Industry" VerticalAlignment="Bottom" Grid.Column="1" FontSize="20"/>
-                        <Rectangle Fill="Gold" Height="2" Width="160" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Resources/LogoFactory.png" Height="60" Width="60" Grid.Column="0"/>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Factory Industry" VerticalAlignment="Bottom" Grid.Column="1" FontSize="20"/>
+                            <Rectangle Fill="Gold" Height="2" Width="160" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
 
-            <Image Source="/Resources/LogoTechnologist.png" Grid.Column="1" Grid.Row="0"/>
+                <Image Source="/Resources/LogoTechnologist.png" Grid.Column="1" Grid.Row="0"/>
 
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Stretch" >
-                <Grid>
-                    <StackPanel>
-                        <TextBlock Text="Войдите в Аккаунт" HorizontalAlignment="Center" FontSize="20" />
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Stretch" >
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Войдите в Аккаунт" HorizontalAlignment="Center" FontSize="20" />
 
-                        <TextBlock Text="Логин" Name="tipLogin_short"  Margin="10 0 0 1" FontWeight="Bold"/>
-                        <TextBox  Margin="10 1 10 10"  Name="login" TextChanged="Password_TextChanged"/>
+                            <TextBlock Text="Логин" Name="tipLogin_short"  Margin="10 0 0 1" FontWeight="Bold"/>
+                            <TextBox  Margin="10 1 10 10"  Name="login" TextChanged="Password_TextChanged"/>
 
 
-                        <TextBlock Text="Пароль" Name="tipPassword_short" Margin="10 0 0 1" FontWeight="Bold"/>
-                        <TextBox Margin="10 1 10 10" Name="password" TextChanged="Login_TextChanged"/>
+                            <TextBlock Text="Пароль" Name="tipPassword_short" Margin="10 0 0 1" FontWeight="Bold"/>
+                            <TextBox Margin="10 1 10 10" Name="password" TextChanged="Login_TextChanged"/>
 
-                        <StackPanel Name="failedAuthorization" Visibility="Hidden">
-                            <TextBlock Text="Неверный логин или пароль!" Foreground="Red"/>
-                            <Rectangle Height="1" Fill="Red"/>
+                            <Grid Name="failedAuthorization" Visibility="Hidden" Margin="0 13 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Rectangle Height="1" Fill="Red" Grid.Row="1"/>
+                            </Grid>
+
+                            <Canvas Margin="10 -177 0 0" Width="Auto" Height="15" Visibility="Visible" Name="tipPassword">
+                                <TextBlock IsHitTestVisible="False" Text="Введите логин" Opacity="0.8"/>
+                            </Canvas>
+                            <Canvas Margin="10 -70 0 0" Width="Auto" Height="15" Visibility="Visible" Name="tipLogin">
+                                <TextBlock IsHitTestVisible="False" Text="Введите пароль" Opacity="0.8"/>
+                            </Canvas>
+
+                            <Button Content="Войти" Margin="10" 
+                                Click="Button_Click" Background="#4CAF50"
+                                IsDefault="True"/>
                         </StackPanel>
 
+                    </Grid>
+                </Border>
 
-                        <Canvas Margin="10 -177 0 0" Width="Auto" Height="15" Visibility="Visible" Name="tipPassword">
-                            <TextBlock IsHitTestVisible="False" Text="Введите пароль" Opacity="0.8"/>
-                        </Canvas>
-                        <Canvas Margin="10 -70 0 0" Width="Auto" Height="15" Visibility="Visible" Name="tipLogin">
-                            <TextBlock IsHitTestVisible="False" Text="Введите логин" Opacity="0.8"/>
-                        </Canvas>
-
-                        <Button Content="Войти" Margin="10" Click="Button_Click" Background="#4CAF50"/>
-                    </StackPanel>
-
-                </Grid>
-            </Border>
-        </Grid>
+            </Grid>
+        </Border>
 
 
         <Grid Visibility="Collapsed" Name="Loaded"  HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -109,6 +120,53 @@
                     </Grid>
                 </materialDesign:Card>
             </Border>
+        </Grid>
+
+
+        <Grid Grid.ColumnSpan="2" HorizontalAlignment="Center" 
+              VerticalAlignment="Center" x:Name="confirmationCard" 
+              Visibility="Collapsed" >
+            <materialDesign:Card Width="300" Height="Auto"  
+                                 Padding="20" UniformCornerRadius="12" 
+                                 BorderBrush="Black" BorderThickness="0.2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:Card Grid.Row="0" Background="#FFF8E1" 
+                                      UniformCornerRadius="12" Padding="10" 
+                                      Margin="0,10,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Height="20" Width="20" 
+                                                  Kind="HelpCircle" Grid.Column="0" 
+                                                  VerticalAlignment="Center"/>
+                            <TextBlock Text="Вы заходите с другой роли ваши функций в приложений будут урезаны!" Grid.Column="1" 
+                                    Margin="10,0,0,0" FontWeight="SemiBold" 
+                                    Foreground="#1A2332" TextWrapping="Wrap"/>
+                        </Grid>
+                    </materialDesign:Card>
+
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                             HorizontalAlignment="Center" Margin="0,15,0,0">
+                        <Button Content="Отменить" Height="40"
+                             Background="#FF4444" Foreground="White"
+                             Padding="20,10" Margin="0,0,10,0"
+                             Click="ConfirmationEntry_Click" Tag="0"/>
+                        <Button Content="Подтвердить" Height="40"
+                             Background="#4FC3F7" Foreground="White"
+                             Padding="20,10" Click="ConfirmationEntry_Click" Tag="1"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
         </Grid>
     </Grid>
 </Page>

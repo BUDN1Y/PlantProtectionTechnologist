@@ -45,7 +45,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button Background="White" BorderBrush="Transparent" ToolTip="Просмотр" Tag="0" Click="ManagerActions">
                     <Button.Content>
-                        <materialDesign:PackIcon Kind="BookOpen"/>
+                        <materialDesign:PackIcon Kind="Book"/>
                     </Button.Content>
                 </Button>
 
@@ -67,7 +67,8 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="9" Click="ManagerActions"> <!--9-->
+                <Button Background="White" BorderBrush="Transparent" ToolTip="Подтвердить" Tag="9" Click="ManagerActions">
+                    <!--9-->
                     <Button.Content>
                         <materialDesign:PackIcon Kind="Check" Foreground="#4CAF50"/>
                     </Button.Content>
@@ -127,96 +128,104 @@
 
 
     <Grid>
-        <Frame Name="tabProductionFtame"/>
-        <Grid Background="#F0F2F5" Name="parentGrid">
-            <StackPanel Margin="30 24 30 30">
+        <Border x:Name="blurBorder">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid Background="#F0F2F5" Name="parentGrid" >
+                <ScrollViewer>
+                    <StackPanel Margin="30 24 30 30">
 
-                <materialDesign:Card UniformCornerRadius="12">
+                        <materialDesign:Card UniformCornerRadius="12">
 
-                    <Grid Margin="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:Card UniformCornerRadius="12" Width="330" HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <Canvas Margin="0 7 0 0" Visibility="Visible" Name="textBoxSearcgProduction">
-                                    <materialDesign:PackIcon Kind="Magnify" Canvas.Left="5" Foreground="#666" Width="18" Height="18"/>
-                                    <TextBlock Text="Поиск по названию или коду..." Canvas.Left="22" Canvas.Bottom="6" Foreground="#666" FontSize="16" IsHitTestVisible="False" />
-                                </Canvas>
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:Card UniformCornerRadius="12" Width="330" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                        <Canvas Margin="0 7 0 0" Visibility="Visible" Name="textBoxSearcgProduction">
+                                            <materialDesign:PackIcon Kind="Magnify" Canvas.Left="5" Foreground="#666" Width="18" Height="18"/>
+                                            <TextBlock Text="Поиск по названию или коду..." Canvas.Left="22" Canvas.Bottom="6" Foreground="#666" FontSize="16" IsHitTestVisible="False" />
+                                        </Canvas>
 
-                                <Border Width="330" BorderBrush="Black" BorderThickness="1" Height="32" CornerRadius="12">
-                                    <TextBox Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" Width="320" FontSize="16" VerticalAlignment="Center" BorderBrush="Transparent" TextChanged="TextBox_TextChanged" Name="searchName"/>
-                                </Border>
-                            </StackPanel>
+                                        <Border Width="330" BorderBrush="Black" BorderThickness="1" Height="32" CornerRadius="12">
+                                            <TextBox Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" Width="320" FontSize="16" VerticalAlignment="Center" BorderBrush="Transparent" TextChanged="TextBox_TextChanged" Name="searchName"/>
+                                        </Border>
+                                    </StackPanel>
 
+                                </materialDesign:Card>
+
+                                <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <ComboBox  FontSize="13" Margin="0,0,8,0" Background="White" BorderBrush="#D0D0D0"  SelectionChanged="ComboBox_SelectionChanged" Name="filterType">
+
+                                    </ComboBox>
+
+                                    <Button Margin="0 0 10 0" Click="AddProduct_Click">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="AddBold" Foreground="White" VerticalAlignment="Center"/>
+                                                <TextBlock Text="Создать продукт" Foreground="White"/>
+                                            </StackPanel>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button Margin="0 0 10 0" Background="Transparent" BorderBrush="Black" Click="ManagerExport_Click" Tag="0">
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="Export" Foreground="Black" VerticalAlignment="Center"/>
+                                                <TextBlock Text="Экспорт" Foreground="Black"/>
+                                            </StackPanel>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
                         </materialDesign:Card>
 
-                        <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <ComboBox  FontSize="13" Margin="0,0,8,0" Background="White" BorderBrush="#D0D0D0"  SelectionChanged="ComboBox_SelectionChanged" Name="filterType">
 
-                            </ComboBox>
+                        <DataGrid Name="productsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Center" Cursor="">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Код" Binding="{Binding code}" Width="Auto"/>
+                                <DataGridTextColumn Header="Наименование" Binding="{Binding name}" Width="Auto"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding type}" Width="Auto"/>
+                                <DataGridTextColumn Header="Форма выпуска" Binding="{Binding releaseForm}" Width="Auto"/>
 
-                            <Button Margin="0 0 10 0" Click="AddProduct_Click">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="AddBold" Foreground="White" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Создать продукт" Foreground="White"/>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-
-                            <Button Margin="0 0 10 0" Background="Transparent" BorderBrush="Black" Click="ManagerExport_Click" Tag="0">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Export" Foreground="Black" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Экспорт" Foreground="Black"/>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
-
-                <DataGrid Name="productsDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
-                    <DataGrid.Resources>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="BorderBrush" Value="Transparent"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                        </Style>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Код" Binding="{Binding code}" Width="Auto"/>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding name}" Width="Auto"/>
-                        <DataGridTextColumn Header="Тип" Binding="{Binding type}" Width="Auto"/>
-                        <DataGridTextColumn Header="Форма выпуска" Binding="{Binding releaseForm}" Width="Auto"/>
-
-                        <DataGridTemplateColumn Header="Статус" Width="Auto">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border CornerRadius="12" 
+                                <DataGridTemplateColumn Header="Статус" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="12" 
                             Padding="8,4" 
                             Margin="2"
                             Background="{Binding statusColor}"
                             HorizontalAlignment="Center"
                             MinWidth="80">
-                                        <TextBlock Text="{Binding statusName}" 
+                                                <TextBlock Text="{Binding statusName}" 
                                    Foreground="White" 
                                    FontSize="12" 
                                    FontWeight="SemiBold" 
                                    TextAlignment="Center"/>
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Действующая рецептура" Binding="{Binding activeRecipeFill}" Width="Auto"/>
-                        <DataGridTextColumn Header="Технологическая карта" Binding="{Binding activeTechMapFill}" Width="Auto"/>
-                        <DataGridTemplateColumn Header="Действие" Width="Auto" CellTemplateSelector="{StaticResource ActionTemplateSelector}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-        </Grid>
+                                <DataGridTextColumn Header="Действующая рецептура" Binding="{Binding activeRecipeFill}" Width="Auto"/>
+                                <DataGridTextColumn Header="Технологическая карта" Binding="{Binding activeTechMapFill}" Width="Auto"/>
+                                <DataGridTemplateColumn Header="Действие" Width="Auto" CellTemplateSelector="{StaticResource ActionTemplateSelector}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
 
         <Grid  Visibility="Collapsed" Name="Loaded" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
@@ -248,9 +257,6 @@
 
         <Grid Visibility="Collapsed" Name="selecteExport" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
-                </Border.Effect>
                 <materialDesign:Card x:Name="confirmationCard" Height="Auto" Padding="20" UniformCornerRadius="12">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -263,21 +269,17 @@
                         </Grid.RowDefinitions>
 
                         <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" 
-                             Background="#FFF8E1" 
-                             UniformCornerRadius="12" 
-                             Padding="10" 
-                             Margin="0,10,0,0">
+                                             Background="#FFF8E1" UniformCornerRadius="12" 
+                                             Padding="10" Margin="0,10,0,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <materialDesign:PackIcon Height="20" 
-                                         Width="20" 
-                                         Kind="HelpCircle" 
-                                         Grid.Column="0" 
-                                         VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Height="20" Width="20" 
+                                                         Kind="HelpCircle" Grid.Column="0" 
+                                                         VerticalAlignment="Center"/>
                                 <TextBlock Text="Выберите способ экспорта" 
                            Grid.Column="1" 
                            Margin="10,0,0,0" 
@@ -289,9 +291,8 @@
 
 
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Center" 
-                    Margin="0,15,0,0">
+                                    Orientation="Horizontal" HorizontalAlignment="Center" 
+                                    Margin="0,15,0,0">
                             <Button  Height="40" Background="#FF4444" Foreground="White" Padding="20,10"
                     Margin="0,0,10,0" Content="Выйти" Tag="1" Click="ManagerExport_Click"/>
 
@@ -335,7 +336,7 @@
                     <TextBlock Text="Успешно" Grid.Row="1" HorizontalAlignment="Center"/>
                     <Button Content="Ок" Grid.Row="2" Click="CloseExport_Click" Foreground="White" Width="50"/>
                 </Grid>
-                
+
             </materialDesign:Card>
         </Grid>
     </Grid>

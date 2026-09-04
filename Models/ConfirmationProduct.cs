@@ -8,6 +8,7 @@ namespace PlantProtectionTechnologist.Models
 {
     public class ConfirmationProduct
     {
+        public int? changetBy { get; set; }
         public int? recipe { get; set; }
         public int? techcard { get; set; }
         public int? id { get; set; }

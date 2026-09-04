@@ -23,7 +23,7 @@ namespace PlantProtectionTechnologist
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public async Task<bool> GetDataAuthorization(string log, string pass)
+        public async Task<DataUser?> GetDataAuthorization(string log, string pass)
         {
             try
             {
@@ -32,21 +32,14 @@ namespace PlantProtectionTechnologist
 
                 string content = await response.Content.ReadAsStringAsync();
 
-                var result = JsonSerializer.Deserialize<bool>(content);
+                DataUser? result = JsonSerializer.Deserialize<DataUser>(content);
 
-                if (result)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return result;
 
             }
             catch (Exception ex)
             {
-                return false;
+                return new DataUser();
             }
         }
 

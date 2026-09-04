@@ -10,167 +10,174 @@
       Title="AddProduct" KeepAlive="False">
 
     <Grid>
-        <Grid Background="#F0F2F5" Name="parentGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
 
-            <ScrollViewer Grid.Row="0">
-                <StackPanel Margin="30 24 30 30">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+        <Border Name="parentGrid">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid Background="#F0F2F5">
 
-                                <materialDesign:PackIcon Grid.Column="0" Grid.RowSpan="2" Kind="AddBold" Height="30" Width="30"/>
-                                <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                    <TextBlock Text="Создание нового продукта" FontSize="16" FontWeight="Bold"/>
-                                    <TextBlock Text="Заполните информацию о новом продукте" Foreground="#666" Margin="0 3 0 0"/>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                        <materialDesign:PackIcon Kind="CloseBold" Cursor="Hand" Foreground="#FF4444" HorizontalAlignment="Right" MouseLeftButtonUp="CloseAddProduct_MouseLeftButtonUp" Height="30" Width="30"/>
-                    </Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <!--Основная информация-->
-                    <materialDesign:Card Margin="0 10 0 0" UniformCornerRadius="12" Padding="10">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0 10">
-                                <materialDesign:PackIcon Kind="Pin" RenderTransformOrigin="0.5,0.5" Width="20" Height="20">
-                                    <materialDesign:PackIcon.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="41"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </materialDesign:PackIcon.RenderTransform>
-                                </materialDesign:PackIcon>
+                <ScrollViewer Grid.Row="0">
+                    <StackPanel Margin="30 24 30 30">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Основная информация" Margin="10 0 0 0" FontWeight="Bold"/>
+                                    <materialDesign:PackIcon Grid.Column="0" Grid.RowSpan="2" Kind="AddBold" Height="30" Width="30"/>
+                                    <StackPanel Grid.Column="1" Margin="10 0 0 0">
+                                        <TextBlock Text="Создание нового продукта" FontSize="16" FontWeight="Bold"/>
+                                        <TextBlock Text="Заполните информацию о новом продукте" Foreground="#666" Margin="0 3 0 0"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
+                            <materialDesign:PackIcon Kind="CloseBold" Cursor="Hand" Foreground="#FF4444" HorizontalAlignment="Right" MouseLeftButtonUp="CloseAddProduct_MouseLeftButtonUp" Height="30" Width="30"/>
+                        </Grid>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
+                        <!--Основная информация-->
+                        <materialDesign:Card Margin="0 10 0 0" UniformCornerRadius="12" Padding="10">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 10">
+                                    <materialDesign:PackIcon Kind="Pin" RenderTransformOrigin="0.5,0.5" Width="20" Height="20">
+                                        <materialDesign:PackIcon.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="41"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </materialDesign:PackIcon.RenderTransform>
+                                    </materialDesign:PackIcon>
 
-                                <TextBlock Text="Код продукта" Grid.Row="0"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="4">
-                                    <Border Grid.Column="0" Background="#E8ECF0" CornerRadius="6" Padding="12,16">
-                                        <TextBlock Text="{Binding textCode}" VerticalAlignment="Center" Foreground="#1A2332" FontWeight="SemiBold"/>
-                                    </Border>
-
+                                    <TextBlock Text="Основная информация" Margin="10 0 0 0" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <TextBlock Text="Наименование" Grid.Row="1"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                <StackPanel Grid.Row="1" Grid.Column="1">
-                                    <TextBox BorderBrush="Black" BorderThickness="1" 
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Код продукта" Grid.Row="0"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="4">
+                                        <Border Grid.Column="0" Background="#E8ECF0" CornerRadius="6" Padding="12,16">
+                                            <TextBlock Text="{Binding textCode}" VerticalAlignment="Center" Foreground="#1A2332" FontWeight="SemiBold"/>
+                                        </Border>
+
+                                    </StackPanel>
+
+                                    <TextBlock Text="Наименование" Grid.Row="1"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="1">
+                                        <TextBox BorderBrush="Black" BorderThickness="1" 
                                          Grid.Column="1" Grid.Row="1" 
                                          Padding="0,8"  Margin="4"  
                                          Foreground="#1A2332" FontWeight="SemiBold" 
                                          FontSize="16" Name="nameProduct"/>
-                                    <TextBlock Text="Обязательное поле" VerticalAlignment="Bottom" Name="requiredField" Foreground="#FF4444" FontWeight="SemiBold" Visibility="Collapsed"/>
-                                </StackPanel>
+                                        <TextBlock Text="Обязательное поле" VerticalAlignment="Bottom" Name="requiredField" Foreground="#FF4444" FontWeight="SemiBold" Visibility="Collapsed"/>
+                                    </StackPanel>
 
-                                <TextBlock Text="Тип продукта" Grid.Column="0" Grid.Row="3"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                <Grid Grid.Column="2" Grid.Row="2" Margin="4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="198*"/>
-                                        <ColumnDefinition Width="198*"/>
-                                        <ColumnDefinition Width="53*"/>
-                                        <ColumnDefinition Width="145*"/>
-                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Тип продукта" Grid.Column="0" Grid.Row="3"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <Grid Grid.Column="2" Grid.Row="2" Margin="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="198*"/>
+                                            <ColumnDefinition Width="198*"/>
+                                            <ColumnDefinition Width="53*"/>
+                                            <ColumnDefinition Width="145*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <ComboBox Grid.Column="0" Height="40" 
+                                        <ComboBox Grid.Column="0" Height="40" 
                                               FontSize="14" Name="typeProduct" 
                                               SelectionChanged="typeProduct_SelectionChanged"/>
-                                    <TextBlock HorizontalAlignment="Left" Text="Форма выпуска" Margin="80,0,0,0" Grid.Column="1" Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                    <ComboBox Grid.Column="2" Height="40" 
+                                        <TextBlock HorizontalAlignment="Left" Text="Форма выпуска" Margin="80,0,0,0" Grid.Column="1" Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                        <ComboBox Grid.Column="2" Height="40" 
                                               FontSize="14" Name="releaseFormProduct" Grid.ColumnSpan="2" SelectionChanged="releaseFormProduct_SelectionChanged"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </StackPanel>
-                    </materialDesign:Card>
-
-
-                    <!--Основные свойства-->
-                    <materialDesign:Card UniformCornerRadius="12" Margin="0 10 0 0">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0 10">
-                                <materialDesign:PackIcon Kind="PlaylistEdit" Width="20" Height="20"/>
-                                <TextBlock Text="Примечание" Margin="10 0 0 0" FontWeight="Bold"/>
                             </StackPanel>
+                        </materialDesign:Card>
 
-                            <Border BorderBrush="Black" 
+
+                        <!--Основные свойства-->
+                        <materialDesign:Card UniformCornerRadius="12" Margin="0 10 0 0">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 10">
+                                    <materialDesign:PackIcon Kind="PlaylistEdit" Width="20" Height="20"/>
+                                    <TextBlock Text="Примечание" Margin="10 0 0 0" FontWeight="Bold"/>
+                                </StackPanel>
+
+                                <Border BorderBrush="Black" 
                                     BorderThickness="1" 
                                     CornerRadius="0 0 12 12" Height="100">
-                                <TextBox Foreground="#1A2332" FontWeight="SemiBold" 
+                                    <TextBox Foreground="#1A2332" FontWeight="SemiBold" 
                                          FontSize="16" AcceptsReturn="True" 
                                          TextWrapping="Wrap" Height="99" 
                                          VerticalScrollBarVisibility="Auto" BorderBrush="Transparent"
                                          Name="commentsProduct"/>
-                            </Border>
-                        </StackPanel>
-                    </materialDesign:Card>
-
-                    <!--Tip-->
-                    <materialDesign:Card Background="#FFF8E1" Margin="0 10 0 0" UniformCornerRadius="12" Padding="10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <materialDesign:PackIcon Height="20" Width="20" Kind="HelpCircle" Grid.Column="0" VerticalAlignment="Center"/>
-                            <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="10 0 0 0">
-                                <TextBlock Text="Новый продукт создается со статусом «На согласовании»" FontWeight="SemiBold" Foreground="#1A2332"/>
-                                <TextBlock Text="После создания продукта вы сможете добавить рецептуры и технологические карты" Foreground="#666" FontSize="12"/>
+                                </Border>
                             </StackPanel>
-                        </Grid>
-                    </materialDesign:Card>
-                </StackPanel>
+                        </materialDesign:Card>
 
-            </ScrollViewer>
+                        <!--Tip-->
+                        <materialDesign:Card Background="#FFF8E1" Margin="0 10 0 0" UniformCornerRadius="12" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="#E1ECF0" BorderThickness="0 1 0 0" Grid.Row="1"  Margin="30 0 30 30">
-                <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Background="Transparent" BorderBrush="#E1ECF0" Margin="0 0 10 0" Click="Handling_Click" Tag="Черновик">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ContentSave" Margin="0 0 10 0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Сохранить черновик"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
+                                <materialDesign:PackIcon Height="20" Width="20" Kind="HelpCircle" Grid.Column="0" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="10 0 0 0">
+                                    <TextBlock Text="Новый продукт создается со статусом «На согласовании»" FontWeight="SemiBold" Foreground="#1A2332"/>
+                                    <TextBlock Text="После создания продукта вы сможете добавить рецептуры и технологические карты" Foreground="#666" FontSize="12"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </StackPanel>
 
-                    <Button Background="#4FC3F7" Foreground="White" Tag="На согласовании" Click="Handling_Click">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Create"  Margin="0 0 10 0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Создать продукт"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
-            </Border>
-        </Grid>
+                </ScrollViewer>
+
+                <Border BorderBrush="#E1ECF0" BorderThickness="0 1 0 0" Grid.Row="1"  Margin="30 0 30 30">
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Background="Transparent" BorderBrush="#E1ECF0" Margin="0 0 10 0" Click="Handling_Click" Tag="Черновик">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ContentSave" Margin="0 0 10 0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Сохранить черновик"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Background="#4FC3F7" Foreground="White" Tag="На согласовании" Click="Handling_Click">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Create"  Margin="0 0 10 0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Создать продукт"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </Border>
+
+
 
         <Grid Visibility="Collapsed" Name="confirmation" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
-                </Border.Effect>
                 <materialDesign:Card x:Name="confirmationCard" 
                              Width="500" 
                              Height="Auto" 

@@ -111,9 +111,9 @@ namespace PlantProtectionTechnologist
             try
             {
                 _timer.Start();
-                parentGrid.Effect = new BlurEffect() { Radius = 5 };
+                blurBorder.Effect = new BlurEffect() { Radius = 5 };
                 Loaded.Visibility = Visibility.Visible;
-                parentGrid.IsHitTestVisible = false;
+                blurBorder.IsHitTestVisible = false;
 
                 ApiClient apiClient = new ApiClient();
                 ProductDto[] result = await apiClient.GetDataProduction();
@@ -123,15 +123,15 @@ namespace PlantProtectionTechnologist
                 productsDataGrid.ItemsSource = dataProduction;
 
                 _timer.Stop();
-                parentGrid.IsHitTestVisible = true;
-                parentGrid.Effect = new BlurEffect() { Radius = 0 };
+                blurBorder.IsHitTestVisible = true;
+                blurBorder.Effect = new BlurEffect() { Radius = 0 };
                 Loaded.Visibility = Visibility.Collapsed;
             }
             catch
             {
                 _timer.Stop();
-                parentGrid.IsHitTestVisible = true;
-                parentGrid.Effect = new BlurEffect() { Radius = 0 };
+                blurBorder.IsHitTestVisible = true;
+                blurBorder.Effect = new BlurEffect() { Radius = 0 };
                 Loaded.Visibility = Visibility.Collapsed;
             }
         }
@@ -190,14 +190,14 @@ namespace PlantProtectionTechnologist
             if (tag == "0")
             {
                 selecteExport.Visibility = Visibility.Visible;
-                parentGrid.Effect = new BlurEffect() { Radius = 5 };
-                parentGrid.IsHitTestVisible = false;
+                blurBorder.Effect = new BlurEffect() { Radius = 5 };
+                blurBorder.IsHitTestVisible = false;
             }
             else
             {
                 selecteExport.Visibility = Visibility.Collapsed;
-                parentGrid.Effect = new BlurEffect() { Radius = 0 };
-                parentGrid.IsHitTestVisible = true;
+                blurBorder.Effect = new BlurEffect() { Radius = 0 };
+                blurBorder.IsHitTestVisible = true;
             }
         }
 
@@ -275,6 +275,23 @@ namespace PlantProtectionTechnologist
             {
                 int? tag = Convert.ToInt32(btn.Tag);
 
+                if (tag == 2 || tag == 3 || tag == 9)
+                {
+                    ConfirmationProduct product = new ConfirmationProduct()
+                    {
+                        recipe = selectedProduct.activeRecipeId,
+                        techcard = selectedProduct.activeTechMapId,
+                        id = selectedProduct.id,
+                        code = selectedProduct.code,
+                        oldStatus = selectedProduct.statusId,
+                        status = tag.Value,
+                        changetBy = (ButtonManager.instance.user == null) ? 1 : ButtonManager.instance.user.id
+                    };
+                    await apiClient.ChangetStatusProduct(product);
+                    Navigate.tabFrame.Navigate(new Production());
+                    return;
+                }
+
                 switch (tag)
                 {
                     case 0:
@@ -292,21 +309,7 @@ namespace PlantProtectionTechnologist
                         break;
                 }
 
-                if(tag == 2 || tag == 3 || tag == 9)
-                {
-                    MessageBox.Show($"{selectedProduct.activeRecipeId} {selectedProduct.activeTechMapId}");
-                    ConfirmationProduct product = new ConfirmationProduct()
-                    {
-                        recipe = selectedProduct.activeRecipeId,
-                        techcard = selectedProduct.activeTechMapId,
-                        id = selectedProduct.id,
-                        code = selectedProduct.code,
-                        oldStatus = selectedProduct.statusId,
-                        status = tag.Value
-                    };
-                   await apiClient.ChangetStatusProduct(product);
-                    Navigate.tabFrame.Navigate(new Production());
-                }
+                
                 //9 удалить 2 восстановить 3 подтвердить
             }
         }

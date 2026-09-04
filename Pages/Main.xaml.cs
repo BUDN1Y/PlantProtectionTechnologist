@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -79,7 +80,7 @@ namespace PlantProtectionTechnologist.Pages
                         Navigate.tabFrame.Navigate(new Production());
                         break;
                     case 2:
-                        Navigate.tabFrame.Navigate(new MainTab());
+                        Navigate.tabFrame.Navigate(new Recipes());
                         break;
                     case 3:
                         Navigate.tabFrame.Navigate(new MainTab());
@@ -94,6 +95,35 @@ namespace PlantProtectionTechnologist.Pages
 
             }
 
-        }     
+        }
+
+        private void ConfirmationClose_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+
+            if (btn != null)
+            {
+                int tag = Convert.ToInt32(btn.Tag.ToString());
+
+                if (tag == 0)
+                {
+                    confirmationCard.Visibility = Visibility.Collapsed;
+                    mainGrid.IsHitTestVisible = true;
+                    borderBlur.Effect = new BlurEffect() { Radius = 0 };
+                }
+                else if(tag == 1)
+                {
+                    confirmationCard.Visibility = Visibility.Visible;
+                    mainGrid.IsHitTestVisible = false;
+                    borderBlur.Effect = new BlurEffect() { Radius = 15 };
+                }
+                else
+                {
+                    Navigate.mainFrame.Navigate(new Authorization());
+                }
+            }
+        }
+
+        
     }
 }

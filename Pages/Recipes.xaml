@@ -1,0 +1,56 @@
+﻿<Page x:Class="PlantProtectionTechnologist.Pages.Recipes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PlantProtectionTechnologist.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Recipes">
+
+    <Grid Background="White">
+        <Border x:Name="blurBorder">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="0"/>
+            </Border.Effect>
+            <Grid x:Name="paternGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!--Левая часть бд рецептов-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" 
+                                Margin="10">
+                        <materialDesign:PackIcon Kind="ListBox" Width="25" 
+                                                 Height="25" Foreground="#1A2332"/>
+                        <TextBlock Text="Рецептуры продукций" VerticalAlignment="Center" 
+                                   FontWeight="SemiBold" Foreground="#1A2332"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Border Width="230" BorderBrush="Black" 
+                            BorderThickness="1" Height="32" 
+                            CornerRadius="12" Grid.Row="1">
+                        <TextBox Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" Width="220" 
+                                 FontSize="16" VerticalAlignment="Center" 
+                                 BorderBrush="Transparent" TextChanged="TextBox_TextChanged" 
+                                 Name="searchName"/>
+                    </Border>
+
+                </Grid>
+            </Grid>
+        </Border>
+
+
+    </Grid>
+</Page>

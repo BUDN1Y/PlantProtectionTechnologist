@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PlantProtectionTechnologist.Pages"
-      xmlns:materialdesigninxaml="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="900" d:DesignWidth="800"
       Title="MainTab" KeepAlive="False">
@@ -17,177 +17,222 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer  VerticalScrollBarVisibility="Auto" Background="#F0F2F5">
-        <StackPanel Margin="30 24 30 30">
+    <Grid>
+        <Border x:Name="mainBorder">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="2"/>
+            </Border.Effect>
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" Background="#F0F2F5">
+                <StackPanel Margin="30 24 30 30">
 
-            <TextBlock Text="Ключевые показатели производства" FontSize="18" FontWeight="SemiBold" Foreground="#1A2332" Margin="0 0 0 16"/>
+                    <TextBlock Text="Ключевые показатели производства" FontSize="18" FontWeight="SemiBold" Foreground="#1A2332" Margin="0 0 0 16"/>
 
-            <WrapPanel ItemWidth="210">
+                    <WrapPanel ItemWidth="210">
 
-                <!--Активных продуктов-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="PackageVariant" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Активных продуктов" Foreground="#666" FontSize="13"/>
+                        <!--Активных продуктов-->
+                        <materialDesign:Card Style="{StaticResource TabCard}">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="PackageVariant" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Активных продуктов" Foreground="#666" FontSize="13"/>
 
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}" Tag="1"/>
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}" Tag="1"/>
 
-                    </StackPanel>
-                </materialdesigninxaml:Card>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                <!--Действующих рецептур-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="ListBox" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Действующих рецептур" Foreground="#666" FontSize="13"/>
+                        <!--Действующих рецептур-->
+                        <materialDesign:Card Style="{StaticResource TabCard}">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="ListBox" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Действующих рецептур" Foreground="#666" FontSize="13"/>
 
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}" Tag="2"/>
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}" Tag="2"/>
 
-                    </StackPanel>
-                </materialdesigninxaml:Card>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                <!--Заказов в работе-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="FormatListBulleted" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Заказов в работе" Foreground="#666" FontSize="13"/>
+                        <!--Заказов в работе-->
+                        <materialDesign:Card Style="{StaticResource TabCard}">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="FormatListBulleted" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Заказов в работе" Foreground="#666" FontSize="13"/>
 
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}"/>
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}"/>
 
-                    </StackPanel>
-                </materialdesigninxaml:Card>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                <!--Партий в производстве-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="Factory" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Партий в производстве" Foreground="#666" FontSize="13"/>
+                        <!--Партий в производстве-->
+                        <materialDesign:Card Style="{StaticResource TabCard}">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="Factory" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Партий в производстве" Foreground="#666" FontSize="13"/>
 
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}"/>
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click"  Style="{StaticResource LinkTextBlock}"/>
 
-                    </StackPanel>
-                </materialdesigninxaml:Card>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                <!--Партий с отклонениями-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}" BorderBrush="#FF4444" BorderThickness="2">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="Alert" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Партий с отклонениями" Foreground="#666" FontSize="13"/>
-                        <StackPanel Orientation="Horizontal">
-                            <materialdesigninxaml:PackIcon  Kind="Circle" Foreground="#FF4444"/>
-                            <TextBlock Text="Требуют внимания!" Foreground="#FF4444"/>
-                        </StackPanel>
-
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlockRed}"/>
-
-                    </StackPanel>
-                </materialdesigninxaml:Card>
-
-                <!--Ожидают решения-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}" BorderBrush="#FFB300" BorderThickness="2">
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="Microscope" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Ожидают лабораторию" Foreground="#666" FontSize="13"/>
-                        <StackPanel Orientation="Horizontal">
-                            <materialdesigninxaml:PackIcon  Kind="Circle" Foreground="#FFB300"/>
-                            <TextBlock Text="Ожидают решения" Foreground="#FFB300"/>
-                        </StackPanel>
-
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlockYellow}"/>
-
-                    </StackPanel>
-                </materialdesigninxaml:Card>
-
-                <!--Тех. карт в работе-->
-                <materialdesigninxaml:Card Style="{StaticResource TabCard}" >
-                    <StackPanel Margin="10">
-                        <materialdesigninxaml:PackIcon Kind="Gear" Margin="10 0 0 0" Width="50" Height="50"/>
-                        <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
-                        <TextBlock Text="Тех. карт в работе" Foreground="#666" FontSize="13"/>
-
-                        <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlock}"/>
-
-                    </StackPanel>
-                </materialdesigninxaml:Card>
-            </WrapPanel>
-
-            <materialdesigninxaml:Card Margin="0 30 0 0" UniformCornerRadius="12">
-                <ScrollViewer >
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" >
-                            <materialdesigninxaml:PackIcon Kind="Newspaper" Height="36" Width="35"/>
-                            <TextBlock Text="Лента последних событий"  Foreground="#1A2332" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-
-                        <StackPanel Name="newspaperCard">
-                            <materialdesigninxaml:Card UniformCornerRadius="12" BorderBrush="#666" BorderThickness="2">
-                                <StackPanel Orientation="Horizontal" Margin="10">
-                                    <materialdesigninxaml:PackIcon Kind="AlarmClock"/>
-                                    <TextBlock Text="??:??:??" Foreground="#666" Margin="10 0 0 0"/>
-                                    <TextBlock Text="?" Margin="20 0 0 0"/>
-                                    <TextBlock Text="????????" Margin="30 0 0 0"/>
-                                    <TextBlock Text="->" Cursor="Hand"/>
-                                </StackPanel>
-                            </materialdesigninxaml:Card>
-                        </StackPanel>
-
-
-                    </StackPanel>
-                </ScrollViewer>
-            </materialdesigninxaml:Card>
-
-            <materialdesigninxaml:Card Margin="0 30 0 0" UniformCornerRadius="12">
-                <StackPanel Margin="20">
-                    <StackPanel Orientation="Horizontal">
-                        <materialdesigninxaml:PackIcon Kind="LightningBolt" Foreground="#FFB300" VerticalAlignment="Center"/>
-                        <TextBlock TextTrimming="WordEllipsis" Text="Быстрые переходы" Foreground="#1A2332" FontSize="18"/>
-                    </StackPanel>
-
-                    <WrapPanel>
-                        <Button Margin="0 10 10 0">
-                            <Button.Content>
+                        <!--Партий с отклонениями-->
+                        <materialDesign:Card Style="{StaticResource TabCard}" BorderBrush="#FF4444" BorderThickness="2">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="Alert" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Партий с отклонениями" Foreground="#666" FontSize="13"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <materialdesigninxaml:PackIcon Kind="AddBold" Foreground="White" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Создать заказ" Foreground="White"/>
+                                    <materialDesign:PackIcon  Kind="Circle" Foreground="#FF4444"/>
+                                    <TextBlock Text="Требуют внимания!" Foreground="#FF4444"/>
                                 </StackPanel>
-                            </Button.Content>
-                        </Button>
 
-                        <Button Margin="0 10 10 0" Background="#1A2332">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialdesigninxaml:PackIcon Kind="ListBox" Foreground="White" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Новая рецептура" Foreground="White"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlockRed}"/>
 
-                        <Button Margin="0 10 10 0" Background="#FFB300">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialdesigninxaml:PackIcon Kind="Factory" Foreground="White" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Запустить партию" Foreground="White"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                        <Button Margin="0 10 10 0" Background="#FF4444">
-                            <Button.Content>
+                        <!--Ожидают решения-->
+                        <materialDesign:Card Style="{StaticResource TabCard}" BorderBrush="#FFB300" BorderThickness="2">
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="Microscope" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Ожидают лабораторию" Foreground="#666" FontSize="13"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <materialdesigninxaml:PackIcon Kind="Alert" Foreground="White" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Просмотр отклонений" Foreground="White"/>
+                                    <materialDesign:PackIcon  Kind="Circle" Foreground="#FFB300"/>
+                                    <TextBlock Text="Ожидают решения" Foreground="#FFB300"/>
                                 </StackPanel>
-                            </Button.Content>
-                        </Button>
+
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlockYellow}"/>
+
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <!--Тех. карт в работе-->
+                        <materialDesign:Card Style="{StaticResource TabCard}" >
+                            <StackPanel Margin="10">
+                                <materialDesign:PackIcon Kind="Gear" Margin="10 0 0 0" Width="50" Height="50"/>
+                                <TextBlock Text="???" FontSize="28" FontWeight="Bold" Foreground="#1A2332"/>
+                                <TextBlock Text="Тех. карт в работе" Foreground="#666" FontSize="13"/>
+
+                                <TextBlock MouseLeftButtonUp="PageSwitch_Click" Style="{StaticResource LinkTextBlock}"/>
+
+                            </StackPanel>
+                        </materialDesign:Card>
                     </WrapPanel>
+
+                    <materialDesign:Card Margin="0 30 0 0" UniformCornerRadius="12">
+                        <ScrollViewer >
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" >
+                                    <materialDesign:PackIcon Kind="Newspaper" Height="36" Width="35"/>
+                                    <TextBlock Text="Лента последних событий"  Foreground="#1A2332" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel Name="newspaperCard">
+                                    <materialDesign:Card UniformCornerRadius="12" BorderBrush="#666" BorderThickness="2">
+                                        <StackPanel Orientation="Horizontal" Margin="10">
+                                            <materialDesign:PackIcon Kind="AlarmClock"/>
+                                            <TextBlock Text="??:??:??" Foreground="#666" Margin="10 0 0 0"/>
+                                            <TextBlock Text="?" Margin="20 0 0 0"/>
+                                            <TextBlock Text="????????" Margin="30 0 0 0"/>
+                                            <TextBlock Text="->" Cursor="Hand"/>
+                                        </StackPanel>
+                                    </materialDesign:Card>
+                                </StackPanel>
+
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Margin="0 30 0 0" UniformCornerRadius="12">
+                        <StackPanel Margin="20">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="LightningBolt" Foreground="#FFB300" VerticalAlignment="Center"/>
+                                <TextBlock TextTrimming="WordEllipsis" Text="Быстрые переходы" Foreground="#1A2332" FontSize="18"/>
+                            </StackPanel>
+
+                            <WrapPanel>
+                                <Button Margin="0 10 10 0">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="AddBold" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Создать заказ" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+                                <Button Margin="0 10 10 0" Background="#1A2332">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="ListBox" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Новая рецептура" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+                                <Button Margin="0 10 10 0" Background="#FFB300">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Factory" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Запустить партию" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+                                <Button Margin="0 10 10 0" Background="#FF4444">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Alert" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Просмотр отклонений" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </WrapPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
                 </StackPanel>
-            </materialdesigninxaml:Card>
-        </StackPanel>
-    </ScrollViewer>
+            </ScrollViewer>
+        </Border>
+
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
+              x:Name="confirmationCard" Visibility="Collapsed" >
+            <materialDesign:Card Width="300" Height="Auto"  
+                         Padding="20" UniformCornerRadius="12" 
+                         BorderBrush="Black" BorderThickness="0.2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <materialDesign:Card Grid.Row="0" Background="#FFF8E1" 
+                              UniformCornerRadius="12" Padding="10" 
+                              Margin="0,10,0,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Height="20" Width="20" 
+                                          Kind="HelpCircle" Grid.Column="0" 
+                                          VerticalAlignment="Center"/>
+                            <TextBlock Text="Доступ запрещен !" Grid.Column="1" 
+                                       Margin="10,0,0,0" FontWeight="SemiBold" Foreground="#1A2332" TextWrapping="Wrap"/>
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <Button Content="Подтвердить" Height="40"
+                            Background="#4FC3F7" Foreground="White"
+                            Padding="20,10" Click="Confirmation_Click" 
+                             Tag="1" Grid.Row="1" Margin="0 10 0 0"/>
+
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -21,19 +23,29 @@ namespace PlantProtectionTechnologist.Pages
     public partial class MainTab : Page
     {
         ButtonManager instance = ButtonManager.instance;
+        private bool _isRole = false;
         public MainTab()
         {
             InitializeComponent();
 
         }
 
-        private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        public MainTab(bool isRole)
         {
-            MessageBox.Show("dsd");
+            InitializeComponent();
+            _isRole = isRole;
         }
-
+   
         private void PageSwitch_Click(object sender, MouseButtonEventArgs e)
         {
+            if (_isRole)
+            {
+                mainBorder.Effect = new BlurEffect() { Radius = 15};
+                mainBorder.IsHitTestVisible = false;
+                confirmationCard.Visibility = Visibility.Visible;
+                return;
+            }
+
             var btn = sender as TextBlock;
             
             if (btn != null)
@@ -41,7 +53,6 @@ namespace PlantProtectionTechnologist.Pages
                 string? tag = btn.Tag.ToString();
                 var indexNextPage = Convert.ToInt32(tag);
                 
-
                 instance.ClearSelectedButton();
                 instance.AddSelectedButton(indexNextPage);
 
@@ -54,7 +65,7 @@ namespace PlantProtectionTechnologist.Pages
                         Navigate.tabFrame.Navigate(new Production());
                         break;
                     case 2:
-                        Navigate.tabFrame.Navigate(new MainTab());
+                        Navigate.tabFrame.Navigate(new Recipes());
                         break;
                     case 3:
                         Navigate.tabFrame.Navigate(new MainTab());
@@ -67,6 +78,13 @@ namespace PlantProtectionTechnologist.Pages
                         break;
                 }
             }
+        }
+
+        private void Confirmation_Click(object sender, RoutedEventArgs e)
+        {
+            mainBorder.Effect = new BlurEffect() { Radius = 0 };
+            mainBorder.IsHitTestVisible = true;
+            confirmationCard.Visibility = Visibility.Collapsed;
         }
     }
 }
