@@ -43,7 +43,7 @@ namespace PlantProtectionTechnologist
             }
         }
 
-        public async Task<ProductDto[]> GetDataProduction()
+        public async Task<ProductDto[]?> GetDataProduction()
         {
             try
             {
@@ -54,18 +54,20 @@ namespace PlantProtectionTechnologist
 
                 var result = JsonSerializer.Deserialize<ProductDto[]>(content);
 
-                foreach (var item in result)
+                if (result != null)
                 {
-                    if (item.activeTechMapFill == "v")
+                    foreach (var item in result)
                     {
-                        item.activeTechMapFill = "Не найдено";
-                    }
+                        if (item.activeTechMapFill == "v")
+                        {
+                            item.activeTechMapFill = "Не найдено";
+                        }
 
-                    if (item.activeRecipeFill == "v0")
-                    {
-                        item.activeRecipeFill = "Не найдено";
+                        if (item.activeRecipeFill == "v0")
+                        {
+                            item.activeRecipeFill = "Не найдено";
+                        }
                     }
-
                 }
 
                 return result;
@@ -110,7 +112,7 @@ namespace PlantProtectionTechnologist
 
                 HttpResponseMessage response = await _httpClient.PutAsJsonAsync(url, editProduct);
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     return true;
                 }
@@ -120,7 +122,7 @@ namespace PlantProtectionTechnologist
                     return false;
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show($"{ex}");
                 return false;
@@ -131,7 +133,7 @@ namespace PlantProtectionTechnologist
         {
             try
             {
-                if(editProduct == null)
+                if (editProduct == null)
                 {
                     return false;
                 }
@@ -156,6 +158,42 @@ namespace PlantProtectionTechnologist
                 return false;
             }
 
+        }
+
+        public async Task<ProductDto[]?> GetDataRecipes()
+        {
+            try
+            {
+                string url = $"getDataRecipes";
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                var result = JsonSerializer.Deserialize<ProductDto[]>(content);
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        if (item.activeTechMapFill == "v")
+                        {
+                            item.activeTechMapFill = "Не найдено";
+                        }
+
+                        if (item.activeRecipeFill == "v0")
+                        {
+                            item.activeRecipeFill = "Не найдено";
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}");
+                return null;
+            }
         }
     }
 }

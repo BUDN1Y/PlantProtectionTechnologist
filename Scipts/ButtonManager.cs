@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace PlantProtectionTechnologist
+namespace PlantProtectionTechnologist.Scipts
 {
     public sealed class ButtonManager : INotifyPropertyChanged
     {

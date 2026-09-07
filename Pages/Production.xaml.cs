@@ -29,6 +29,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using static System.Data.DataTable;
 using PlantProtectionTechnologist.Pages.ProductActions;
+using PlantProtectionTechnologist.Scipts;
 
 namespace PlantProtectionTechnologist
 {
@@ -92,11 +93,11 @@ namespace PlantProtectionTechnologist
             TextBox el = (TextBox)sender;
             if (string.IsNullOrEmpty(el.Text))
             {
-                textBoxSearcgProduction.Visibility = Visibility.Visible;
+                textBoxSearchProduction.Visibility = Visibility.Visible;
             }
             else
             {
-                textBoxSearcgProduction.Visibility = Visibility.Hidden;
+                textBoxSearchProduction.Visibility = Visibility.Hidden;
             }
 
             dataProduction = dataProductionBuffer.Where(x =>
@@ -247,10 +248,13 @@ namespace PlantProtectionTechnologist
             {
                 var data = productsDataGrid.ItemsSource as IEnumerable<object>;
 
-                if (!data.Any())
+                if (data != null)
                 {
-                    MessageBox.Show("Нет данных!");
-                    return;
+                    if (!data.Any())
+                    {
+                        MessageBox.Show("Нет данных!");
+                        return;
+                    }
                 }
                 using var write = new StreamWriter(dialog.FileName);
                 using var csv = new CsvWriter(write, CultureInfo.InvariantCulture);
@@ -302,14 +306,14 @@ namespace PlantProtectionTechnologist
                         Navigate.tabFrame.Navigate(new Edit(dataProduction, selectedProduct));
                         break;
 
-                    
+
 
                     default:
                         MessageBox.Show("Отсутствует");
                         break;
                 }
 
-                
+
                 //9 удалить 2 восстановить 3 подтвердить
             }
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace PlantProtectionTechnologist
+namespace PlantProtectionTechnologist.Scipts
 {
     public class CircleAnimator
     {
@@ -31,8 +31,8 @@ namespace PlantProtectionTechnologist
             double offsetX = Math.Cos(phi);
             double offsetY = Math.Sin(phi);
 
-            double newLeft = (_centerX + offsetX * _orbitRadius) - (_circle.Width / 2);
-            double newTop = (_centerY + offsetY * _orbitRadius) - (_circle.Height / 2);
+            double newLeft = _centerX + offsetX * _orbitRadius - _circle.Width / 2;
+            double newTop = _centerY + offsetY * _orbitRadius - _circle.Height / 2;
 
             Canvas.SetLeft(_circle, newLeft);
             Canvas.SetTop(_circle, newTop);

@@ -89,7 +89,9 @@
                                         <TextBlock Text="Обязательное поле" VerticalAlignment="Bottom" Name="requiredField" Foreground="#FF4444" FontWeight="SemiBold" Visibility="Collapsed"/>
                                     </StackPanel>
 
-                                    <TextBlock Text="Тип продукта" Grid.Column="0" Grid.Row="3"  Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Тип продукта" Grid.Column="0" Grid.Row="3"  
+                                               Foreground="#1A2332" FontWeight="SemiBold" 
+                                               VerticalAlignment="Center"/>
                                     <Grid Grid.Column="2" Grid.Row="2" Margin="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="198*"/>
@@ -101,9 +103,14 @@
                                         <ComboBox Grid.Column="0" Height="40" 
                                               FontSize="14" Name="typeProduct" 
                                               SelectionChanged="typeProduct_SelectionChanged"/>
-                                        <TextBlock HorizontalAlignment="Left" Text="Форма выпуска" Margin="80,0,0,0" Grid.Column="1" Foreground="#1A2332" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                        
+                                        <TextBlock HorizontalAlignment="Left" Text="Форма выпуска" 
+                                                   Margin="80,0,0,0" Grid.Column="1" 
+                                                   Foreground="#1A2332" FontWeight="SemiBold" 
+                                                   VerticalAlignment="Center"/>
                                         <ComboBox Grid.Column="2" Height="40" 
-                                              FontSize="14" Name="releaseFormProduct" Grid.ColumnSpan="2" SelectionChanged="releaseFormProduct_SelectionChanged"/>
+                                                  FontSize="14" Name="releaseFormProduct" 
+                                                  Grid.ColumnSpan="2" SelectionChanged="releaseFormProduct_SelectionChanged"/>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -310,7 +317,8 @@
             </Border>
         </Grid>
 
-        <Grid Visibility="Collapsed" Name="Loaded" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Visibility="Collapsed" Name="Loaded" 
+              HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
                 <Border.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>

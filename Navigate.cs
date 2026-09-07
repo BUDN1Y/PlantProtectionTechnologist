@@ -11,5 +11,6 @@ namespace PlantProtectionTechnologist
     {
         public static Frame mainFrame;
         public static Frame tabFrame;
+        public static Frame pageRecipesFrame;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PlantProtectionTechnologist.ApiGetCs;
 using PlantProtectionTechnologist.Models;
+using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,7 +91,7 @@ namespace PlantProtectionTechnologist.Pages.ProductActions
         private void typeProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsLoaded) return;
-            visua.typeProduct_SelectionChanged(_tipeProductFirst, _textCode);
+            visua.typeProduct_SelectionChanged(_tipeProductFirst, _textCode, true);
         }
         private void releaseFormProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

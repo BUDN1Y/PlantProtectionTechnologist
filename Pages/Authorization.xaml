@@ -94,7 +94,8 @@
         </Border>
 
 
-        <Grid Visibility="Collapsed" Name="Loaded"  HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Visibility="Collapsed" Name="Loaded"  
+              HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
                 <Border.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
