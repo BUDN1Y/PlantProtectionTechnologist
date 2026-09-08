@@ -5,21 +5,11 @@ namespace PlantProtectionTechnologist.Models;
 
 public partial class RecipeComponent
 {
-    public int Id { get; set; }
-
-    public int RecipeId { get; set; }
-
-    public int RawMaterialId { get; set; }
-
-    public decimal Percentage { get; set; }
-
-    public decimal? ToleranceMin { get; set; }
-
-    public decimal? ToleranceMax { get; set; }
-
-    public int LoadOrder { get; set; }
-
-    public virtual RawMaterial RawMaterial { get; set; } = null!;
-
-    public virtual Recipe Recipe { get; set; } = null!;
+    public int id { get; set; }
+    public int recipeId { get; set; }
+    public int rawMaterialId { get; set; }
+    public decimal percentage { get; set; }
+    public decimal? toleranceMin { get; set; }
+    public decimal? toleranceMax { get; set; }
+    public int loadOrder { get; set; }
 }

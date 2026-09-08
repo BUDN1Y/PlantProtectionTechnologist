@@ -1,4 +1,6 @@
-﻿using PlantProtectionTechnologist.ApiGetCs;
+﻿using Microsoft.IdentityModel.Tokens;
+using PlantProtectionTechnologist.ApiGetCs;
+using PlantProtectionTechnologist.Pages.RecipesCreate;
 using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using PlantProtectionTechnologist.Pages.RecipesCreate;
 
 namespace PlantProtectionTechnologist.Pages
 {
@@ -32,6 +33,8 @@ namespace PlantProtectionTechnologist.Pages
         bool isLoaded = false;
         int selectedIndexTypeProduct = 0;
         int selectedIndexStatusProduct = 0;
+        string selectedWordTypeProduct = "";
+        string selectedWordStatusProduct = "";
 
         private CircleAnimator _circleAnimator;
         private DispatcherTimer _timer;
@@ -101,11 +104,11 @@ namespace PlantProtectionTechnologist.Pages
             TextBox el = (TextBox)sender;
             if (string.IsNullOrEmpty(el.Text))
             {
-                textBoxSearcgProduction.Visibility = Visibility.Visible;
+                textBoxSearchProduction.Visibility = Visibility.Visible;
             }
             else
             {
-                textBoxSearcgProduction.Visibility = Visibility.Hidden;
+                textBoxSearchProduction.Visibility = Visibility.Hidden;
             }
 
             ApplyFilters();
@@ -121,7 +124,9 @@ namespace PlantProtectionTechnologist.Pages
         {
             if (!isLoaded) return;
             ComboBox el = (ComboBox)sender;
-
+            selectedIndexTypeProduct = el.SelectedIndex;
+            selectedWordTypeProduct = el.SelectedItem.ToString();
+           
             ApplyFilters();
         }
 
@@ -131,46 +136,46 @@ namespace PlantProtectionTechnologist.Pages
             ComboBox el = (ComboBox)sender;
 
             selectedIndexStatusProduct = el.SelectedIndex;
-
+            selectedWordStatusProduct = el.SelectedItem.ToString();
             ApplyFilters();
         }
 
         private void ApplyFilters()
         {
+            bool isSeacrh = false;
+            bool isTypeProduct = false;
+            bool isStatusProduct = false;
 
-            string searchText = searchName.Text;
-            string? selectedType = typeProduct.SelectedItem?.ToString();
-            string? selectedStatus = statusProduct.SelectedItem?.ToString();
-
-
-            var filtered = dataProductBuffer.AsEnumerable();
-
-
-            if (!string.IsNullOrEmpty(searchText))
+            dataProductBuffer = dataProduct.ToList();
+            if (!string.IsNullOrEmpty(searchName.Text))
             {
-                filtered = filtered.Where(x =>
-                    x.code.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                    x.name.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+                dataProductBuffer = dataProductBuffer.Where(x =>
+                    x.code.Contains(searchName.Text, StringComparison.OrdinalIgnoreCase) ||
+                    x.name.Contains(searchName.Text, StringComparison.OrdinalIgnoreCase)).ToList();
+                isSeacrh = true;
             }
 
-
-            if (!string.IsNullOrEmpty(selectedType) && selectedType != "Выберите тип...")
+            if (selectedIndexTypeProduct != 0)
             {
-                filtered = filtered.Where(x =>
-                    x.type != null &&
-                    x.type.Equals(selectedType, StringComparison.OrdinalIgnoreCase));
+                dataProductBuffer = dataProductBuffer.Where(x =>
+                    x.type.Contains(selectedWordTypeProduct, StringComparison.OrdinalIgnoreCase)).ToList();
+                isTypeProduct = true;
             }
 
-
-            if (!string.IsNullOrEmpty(selectedStatus) && selectedStatus != "Выберите статус...")
+            if (selectedIndexStatusProduct != 0)
             {
-                filtered = filtered.Where(x =>
-                    x.statusName != null &&
-                    x.statusName.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase));
+                dataProductBuffer = dataProductBuffer.Where(x =>
+                    x.statusName.Contains(selectedWordStatusProduct, StringComparison.OrdinalIgnoreCase)).ToList();
+                isStatusProduct = true;
             }
 
+            if(!(isSeacrh && isTypeProduct && isStatusProduct))
+            {
+                recipesDataGrid.ItemsSource = dataProduct.ToList();
+            }
+                    
 
-            recipesDataGrid.ItemsSource = filtered.ToList();
+            recipesDataGrid.ItemsSource = dataProductBuffer.ToList();
         }
     }
 }

@@ -160,7 +160,7 @@ namespace PlantProtectionTechnologist
 
         }
 
-        public async Task<ProductDto[]?> GetDataRecipes()
+        public async Task<RecipesData[]?> GetDataRecipes()
         {
             try
             {
@@ -169,24 +169,48 @@ namespace PlantProtectionTechnologist
 
                 string content = await response.Content.ReadAsStringAsync();
 
-                var result = JsonSerializer.Deserialize<ProductDto[]>(content);
-
-                if (result != null)
+                if (!response.IsSuccessStatusCode)
                 {
-                    foreach (var item in result)
-                    {
-                        if (item.activeTechMapFill == "v")
-                        {
-                            item.activeTechMapFill = "Не найдено";
-                        }
-
-                        if (item.activeRecipeFill == "v0")
-                        {
-                            item.activeRecipeFill = "Не найдено";
-                        }
-                    }
+                    MessageBox.Show($"Ошибка API: {response.StatusCode}");
+                    return null;
                 }
 
+                var result = JsonSerializer.Deserialize<RecipesData[]>(content);              
+
+                if(result == null)
+                {
+                    MessageBox.Show("Ошибка");
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}");
+                return null;
+            }
+        }
+
+        public async Task<RecipeComponets[]?> GetDataRecipeComponets(int id)
+        {
+            try
+            {
+                string url = $"getDataRecipeComponets?id={Uri.EscapeDataString(id.ToString())}";
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Ошибка API: {response.StatusCode}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<RecipeComponets[]>(content);
+
+                if (result == null)
+                {
+                    MessageBox.Show("Ошибка");
+                }
                 return result;
             }
             catch (Exception ex)

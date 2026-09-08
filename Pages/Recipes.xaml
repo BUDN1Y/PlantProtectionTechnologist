@@ -49,7 +49,7 @@
                             </StackPanel>
 
                             <Canvas Margin="0 7 0 0" Visibility="Visible" 
-                            Name="textBoxSearcgProduction" Grid.Row="1">
+                            Name="textBoxSearchProduction" Grid.Row="1">
                                 <materialDesign:PackIcon Kind="Magnify" Canvas.Left="5" 
                                                  Foreground="#666" Width="18" 
                                                  Height="18"/>
@@ -127,7 +127,7 @@
                                                         <TextBlock Text="{Binding code}" 
                                                                    FontSize="11" Foreground="#6C757D"/>
                                                         <TextBlock Text="{Binding activeRecipeFill}" FontSize="11"
-                                                                       Foreground="#6C757D"/>
+                                                                       Foreground="#6C757D" Margin="5 0 0 0"/>
                                                     </WrapPanel>
                                                 </Grid>
 
@@ -160,9 +160,6 @@
         <Grid Visibility="Collapsed" Name="Loaded"  
       HorizontalAlignment="Center" VerticalAlignment="Center">
             <Border>
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
-                </Border.Effect>
                 <materialDesign:Card Width="100" Height="100" UniformCornerRadius="50">
                     <Grid>
                         <Canvas Panel.ZIndex="2" Width="100" Height="100">

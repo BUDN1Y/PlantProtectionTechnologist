@@ -25,7 +25,7 @@ namespace PlantProtectionTechnologist.Pages
     /// <summary>
     /// Логика взаимодействия для AddProduct.xaml
     /// </summary>
-    public partial class AddProduct : Page, INotifyPropertyChanged
+    public partial class AddProduct : Page
     {
         private CircleAnimator _circleAnimator;
         private DispatcherTimer _timer;
@@ -55,11 +55,7 @@ namespace PlantProtectionTechnologist.Pages
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnpropertyChanget(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+      
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             isLoaded = true;
