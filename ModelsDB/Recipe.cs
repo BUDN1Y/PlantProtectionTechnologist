@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PlantProtectionTechnologist.Models;
+namespace PlantProtectionTechnologist.ModelsDB;
 
 public partial class Recipe
 {

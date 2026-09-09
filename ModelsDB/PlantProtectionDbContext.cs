@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using PlantProtectionTechnologist.ModelsDB;
 
-namespace PlantProtectionTechnologist.Models;
+
+namespace PlantProtectionTechnologist.ModelsDB;
 
 public partial class PlantProtectionDbContext : DbContext
 {

@@ -1,5 +1,5 @@
-﻿using PlantProtectionTechnologist.ApiGetCs;
-using PlantProtectionTechnologist.Models;
+﻿using PlantProtectionTechnologist.Models;
+using PlantProtectionTechnologist.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

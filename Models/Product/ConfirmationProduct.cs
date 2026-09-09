@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantProtectionTechnologist.Models
+namespace PlantProtectionTechnologist.Models.Product
 {
     public class ConfirmationProduct
     {
+        public int? autor {  get; set; }
         public int? changetBy { get; set; }
         public int? recipe { get; set; }
         public int? techcard { get; set; }

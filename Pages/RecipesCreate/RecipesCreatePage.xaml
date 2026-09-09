@@ -4,132 +4,283 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PlantProtectionTechnologist.Pages.RecipesCreate"
+      xmlns:converters="clr-namespace:PlantProtectionTechnologist.Converts"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800" MinWidth="450"
+      d:DesignHeight="950" d:DesignWidth="800" MinWidth="450"
       Title="RecipesCreatePage" KeepAlive="False">
 
+    <Page.Resources>
+        <converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+    </Page.Resources>
+
     <Grid>
-        <Border Name="blurBorder">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2"/>
-            </Border.Effect>
-            <Grid x:Name="paternGrid" Margin="10 0 0 0"
+        
+            <Border Name="blurBorder" >
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="0"/>
+                </Border.Effect>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <Grid x:Name="paternGrid" Margin="10 0 0 0"
               Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <materialDesign:Card Grid.Row="0" Padding="10"
-                                 Background="#F8F9FA">
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Text="{Binding name}" Grid.Row="0"
-                      FontSize="20" FontWeight="Bold"/>
-                            <WrapPanel Grid.Row="1">
-                                <TextBlock Text="{Binding code}" 
-                                           FontSize="13" Foreground="#6C757D"/>
-                                <TextBlock Text="{Binding activeRecipeFill}" FontSize="13" Foreground="#6C757D" Margin="5 0 0 0"/>
-                            </WrapPanel>
-                        </Grid>
-
-                        <Border CornerRadius="12" Padding="8,4" 
-                Margin="2" Background="{Binding statusColor}" 
-                HorizontalAlignment="Center" MinWidth="80"
-                Grid.Column="1" VerticalAlignment="Center" >
-                            <TextBlock Text="{Binding statusName}" FontWeight="SemiBold" Foreground="White" FontSize="13" 
-                       TextAlignment="Center"/>
-                        </Border>
-                    </Grid>
-                </materialDesign:Card>
-
-                <Grid Grid.Row="1" Margin="10 10 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Дата создания" Grid.Column="0" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
-                    <TextBlock Text="Автор" Grid.Column="1" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
-                    <TextBlock Text="Продукт" Grid.Column="2" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
 
-                    <TextBlock Text="{Binding dateCreate}" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" FontSize="13"/>
-                    <TextBlock Text="Не найдено" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" FontSize="13" Visibility="Collapsed" Name="errorCreateDate"/>
-                    <TextBlock Text="{Binding authorName}" Grid.Column="1" Grid.Row="1" FontWeight="SemiBold" FontSize="13"/>
-                    <TextBlock Text="{Binding name}" Grid.Column="2" Grid.Row="1" FontWeight="SemiBold" FontSize="13" TextDecorations="Underline"/>
-                </Grid>
+                    <!--Информация о продукте-->
+                    <materialDesign:Card Grid.Row="0" Padding="10"
+                                 Background="#F8F9FA">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="2">
-                    <materialDesign:Card Margin="20" Padding="20" 
-                                         BorderBrush="Black" BorderThickness="1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            
-                            <WrapPanel Orientation="Horizontal" Grid.Row="0">
-                                <materialDesign:PackIcon Kind="Flask" Height="20" Width="20" VerticalAlignment="Center"/>
-                                <TextBlock Text="Состав рецептуры (Компоненты)" FontWeight="SemiBold" 
-                                            FontSize="20"/>
-                            </WrapPanel>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="1" Margin="0 10 0 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="Сумма долей:" FontSize="20"
-                                           Grid.Column="0" VerticalAlignment="Top"
-                                           Margin="0 0 0 3"/>
-                                <ProgressBar Grid.Column="1" Height="20" 
-                                             Margin="5 0 5 0" />
-                                <TextBlock Text="40%" Grid.Column="2"
-                                           FontSize="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding name}" Grid.Row="0"
+                      FontSize="20" FontWeight="Bold"/>
+                                <WrapPanel Grid.Row="1">
+                                    <TextBlock Text="{Binding code}" 
+                                           FontSize="13" Foreground="#6C757D"/>
+                                    <TextBlock Text="{Binding activeRecipeFill}" FontSize="13" Foreground="#6C757D" Margin="5 0 0 0"/>
+                                </WrapPanel>
                             </Grid>
 
-                            <Grid Grid.Row="2" Margin="0 10 0 0">
-                                <DataGrid Name="recipesDataGrid" AutoGenerateColumns="True" 
+                            <Border CornerRadius="12" Padding="8,4" 
+                                Margin="2" Background="{Binding statusColorProduct}" 
+                                HorizontalAlignment="Center" MinWidth="80"
+                                Grid.Column="1" VerticalAlignment="Center" >
+                                <TextBlock Text="{Binding statusNameProduct}" FontWeight="SemiBold" 
+                                       Foreground="White" FontSize="13" 
+                                       TextAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <!--Все о рецепте-->
+                    <Grid Grid.Row="1" Margin="10 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Дата создания" Grid.Column="0" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
+                        <TextBlock Text="Автор" Grid.Column="1" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
+                        <TextBlock Text="Продукт" Grid.Column="2" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
+                        <TextBlock Text="Статус рецепта" Grid.Column="3" Grid.Row="0"  FontSize="11" Foreground="#6C757D"/>
+
+                        <TextBlock Text="{Binding dateCreate}" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBlock Text="Не найдено" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13" Visibility="Collapsed" Name="errorCreateDate"/>
+                        <TextBlock Text="{Binding authorName}" Grid.Column="1" VerticalAlignment="Center" Grid.Row="1" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBlock Text="{Binding name}" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13" TextDecorations="Underline"/>
+                        <Border Grid.Column="3" Grid.Row="1" CornerRadius="12" Background="{Binding statusColorRecipe, Converter={StaticResource StringToBrushConverter}}" Padding="5" Margin="0 0 10 0">
+                            <TextBlock Text="{Binding statusNameRecipe}" Grid.Column="1" Grid.Row="1" FontWeight="SemiBold" FontSize="13" Foreground="White"/>
+                        </Border>
+
+                    </Grid>
+
+                    <!--Основное окно DataGrid-->
+                    <Grid Grid.Row="2">
+                        <materialDesign:Card Margin="20" Padding="20" 
+                                         BorderBrush="Black" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <WrapPanel Orientation="Horizontal" Grid.Row="0">
+                                    <materialDesign:PackIcon Kind="Flask" Height="20" Width="20" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Состав рецептуры (Компоненты)" FontWeight="SemiBold" 
+                                            FontSize="20"/>
+                                </WrapPanel>
+
+                                <Grid Grid.Row="1" Margin="0 10 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="Сумма долей:" FontSize="20"
+                                           Grid.Column="0" VerticalAlignment="Top"
+                                           Margin="0 0 0 3"/>
+                                    <ProgressBar Grid.Column="1" Height="20" 
+                                             Margin="5 0 5 0" />
+                                    <TextBlock Text="100%" Grid.Column="2"
+                                           FontSize="20" VerticalAlignment="Center"/>
+                                </Grid>
+
+                                <Grid Grid.Row="2" Margin="0 10 0 0">
+                                    <DataGrid Name="recipeDataGrid" AutoGenerateColumns="False" 
+                                          IsReadOnly="True" HorizontalAlignment="Center"
+                                          ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                                          Padding="10" >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding id}"/>
+                                            <DataGridTextColumn Header="Код" Width="Auto" Binding="{Binding code}"/>
+                                            <DataGridTextColumn Header="Наименование" Width="Auto" Binding="{Binding name}"/>
+                                            <DataGridTextColumn Header="Доля, %" Width="Auto" Binding="{Binding percentage}"/>
+                                            <DataGridTextColumn Header="Порядок загрузки" Width="Auto" Binding="{Binding loadOrder}"/>
+                                            <DataGridTextColumn Header="Допуск, %" Width="Auto" Binding="{Binding tolerance}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock Text="Ошибка загрузки" VerticalAlignment="Center" 
+                                               HorizontalAlignment="Center" Visibility="Collapsed"
+                                               Name="errorDataGridRecipe"/>
+                                </Grid>
+
+                                <WrapPanel Orientation="Horizontal" Grid.Row="3" 
+                                       Margin="10">
+                                    <TextBlock Text="Итого:"
+                                           FontSize="20"/>
+                                    <TextBlock Text="34" Margin="5 0 0 0"
+                                           FontSize="20"/>
+                                </WrapPanel>
+
+                                <Grid Grid.Row="4" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" Background="#FF4444" 
+                                        Foreground="White" Width="200"
+                                        Content="Удалить выбраный шаг"/>
+                                    <Button Grid.Column="1" Background="#4FC3F7" 
+                                        Foreground="White" Content="Создать шаг"
+                                        Width="200"/>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+
+                    <!--Комментарий рецепта-->
+                    <Grid Grid.Row="3">
+                        <materialDesign:Card Margin="20" Padding="20" 
+                     BorderBrush="Black" BorderThickness="1">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <WrapPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CommentOutline" Height="20"
+                                                         Width="20" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Комментарии технолога" Margin="10 0 0 0"
+                                           FontSize="20"/>
+                                </WrapPanel>
+
+                                <Border Grid.Row="1" Margin="0 10 0 0"
+                                    BorderBrush="Black" BorderThickness="1">
+                                    <TextBox Foreground="#1A2332" FontWeight="SemiBold" 
+                                     FontSize="16" AcceptsReturn="True" 
+                                     TextWrapping="Wrap" Height="99" 
+                                     VerticalScrollBarVisibility="Auto" BorderBrush="Transparent"
+                                     Name="commentRecipe" Text="{Binding comment}"/>
+                                </Border>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <Grid Grid.Row="4">
+                        <materialDesign:Card Margin="20" Padding="20" 
+                                             BorderBrush="Black" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <WrapPanel Orientation="Horizontal" Grid.Row="0">
+                                    <materialDesign:PackIcon Kind="History" Height="20"
+                                                             Width="20" VerticalAlignment="Center"/>
+                                    <TextBlock Text="История статусов и изменений" Margin="10 0 0 0"
+                                               FontSize="20"/>
+                                    
+                                </WrapPanel>
+
+                                <DataGrid Name="statusDataGrid" AutoGenerateColumns="True" 
                                           IsReadOnly="True" HorizontalAlignment="Stretch"
                                           ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
                                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
-                                          Padding="10" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
-                                    
+                                          Padding="10" Grid.Row="1"
+                                          Margin="0 10 0 0">
+                                   
                                 </DataGrid>
                             </Grid>
-                        </Grid>
-                    </materialDesign:Card>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <Grid Grid.Row="5" HorizontalAlignment="Right" Margin="10">
+                        <WrapPanel Orientation="Horizontal">
+
+                            <Button Margin="0 0 10 0"   Background="#2E86DE">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Pencil" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Редактировать" Foreground="White"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+
+                            <Button Margin="0 0 10 0"  Background="#3498DB">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Export" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Text="На соглосование" Foreground="White"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+
+                            <Button Margin="0 0 10 0"  Background="#27AE60">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="SuccessBold" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Утвердить" Foreground="White"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+
+                            <Button Margin="0 0 10 0"  Background="#95A5A6">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="PackageVariant" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Архивировать" Foreground="White"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+
                 </Grid>
-
-
-
-            </Grid>
+            </ScrollViewer>
         </Border>
+        
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
               x:Name="confirmationCard" Visibility="Collapsed">

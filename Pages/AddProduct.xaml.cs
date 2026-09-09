@@ -1,5 +1,4 @@
-﻿using PlantProtectionTechnologist.ApiGetCs;
-using PlantProtectionTechnologist.Models;
+﻿using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
@@ -110,12 +109,14 @@ namespace PlantProtectionTechnologist.Pages
                     type = visua.confirmationTypeProduct,
                     releaseForm = visua.confirmationReleaseForm,
                     comment = visua.confirmationComment,
-                    status = (tag == "Черновик") ? 1 : 9
+                    status = (tag == "Черновик") ? 1 : 9,
+                    autor = ButtonManager.instance.user.id
                 };
                 visua.confirmationReleaseForm = (visua.confirmationReleaseForm == null) ? "Отсутствует" : visua.confirmationReleaseForm;
                 visua.confirmationTypeProduct = (visua.confirmationTypeProduct == null) ? "Отсутствует" : visua.confirmationTypeProduct;
 
                 visua.confirmationStatus = (tag == "Черновик") ? "Сохранить как черновик?" : "Отправить на согласование?";
+          
                 confirmation.Visibility = Visibility.Visible;
                 parentGrid.IsHitTestVisible = false;
                 parentGrid.Effect = new BlurEffect() { Radius = 15 };
@@ -143,5 +144,7 @@ namespace PlantProtectionTechnologist.Pages
             parentGrid.IsHitTestVisible = true;
             Navigate.tabFrame.Navigate(new Production());
         }
+
+        
     }
 }

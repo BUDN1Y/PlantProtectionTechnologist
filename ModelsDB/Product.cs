@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace PlantProtectionTechnologist.Models;
+namespace PlantProtectionTechnologist.ModelsDB;
 
 public partial class Product
 {

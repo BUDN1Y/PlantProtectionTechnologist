@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantProtectionTechnologist.Models
+namespace PlantProtectionTechnologist.Models.Recipe
 {
     public class RecipesData
     {

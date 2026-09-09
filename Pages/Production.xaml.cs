@@ -2,8 +2,6 @@
 using CsvHelper;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
-using PlantProtectionTechnologist.ApiGetCs;
-using PlantProtectionTechnologist.Models;
 using PlantProtectionTechnologist.Pages;
 using System;
 using System.Collections.Generic;
@@ -30,6 +28,7 @@ using System.Windows.Threading;
 using static System.Data.DataTable;
 using PlantProtectionTechnologist.Pages.ProductActions;
 using PlantProtectionTechnologist.Scipts;
+using PlantProtectionTechnologist.Models.Product;
 
 namespace PlantProtectionTechnologist
 {

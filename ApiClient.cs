@@ -7,8 +7,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using PlantProtectionTechnologist.Models;
-using PlantProtectionTechnologist.ApiGetCs;
 using System.Net.Http.Json;
+using PlantProtectionTechnologist.Models.Recipe;
+using PlantProtectionTechnologist.Models.Product;
 
 namespace PlantProtectionTechnologist
 {
@@ -175,9 +176,9 @@ namespace PlantProtectionTechnologist
                     return null;
                 }
 
-                var result = JsonSerializer.Deserialize<RecipesData[]>(content);              
+                var result = JsonSerializer.Deserialize<RecipesData[]>(content);
 
-                if(result == null)
+                if (result == null)
                 {
                     MessageBox.Show("Ошибка");
                 }
@@ -201,7 +202,7 @@ namespace PlantProtectionTechnologist
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show($"Ошибка API: {response.StatusCode}");
+                    MessageBox.Show($"Ошибка API: {response.StatusCode} RecipeComponets");
                     return null;
                 }
 
@@ -219,5 +220,69 @@ namespace PlantProtectionTechnologist
                 return null;
             }
         }
+
+        public async Task<RawMaterialsData[]?> GetDataDbRawMaterials()
+        {
+            try
+            {
+                string url = $"getDataRawMaterials";
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Ошибка API: {response.StatusCode} RawMaterials");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<RawMaterialsData[]>(content);
+
+                if (result == null)
+                {
+                    MessageBox.Show("Ошибка");
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}");
+                return null;
+            }
+        }
+
+        public async Task<RecipeStatusHistory[]?> GetRecipesComment(int entityId, string entityType)
+        {
+            try
+            {
+                string url = $"getDataRecipesComment?id={Uri.EscapeDataString(entityId.ToString())}&type={Uri.EscapeDataString(entityType)}";
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Ошибка API: {response.StatusCode}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<RecipeStatusHistory[]>(content);
+
+                if (result == null)
+                {
+                    MessageBox.Show("Ошибка");
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}");
+                return null;
+            }
+        }
+
+
+
+
     }
 }

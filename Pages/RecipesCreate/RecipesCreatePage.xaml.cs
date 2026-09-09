@@ -1,8 +1,13 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using PlantProtectionTechnologist.ApiGetCs;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using PlantProtectionTechnologist.Models.Product;
+using PlantProtectionTechnologist.Models.Recipe;
+using PlantProtectionTechnologist.ModelsDB;
 using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +22,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using PlantProtectionTechnologist.Models;
-using DocumentFormat.OpenXml.Packaging;
-using System.ComponentModel;
 
 namespace PlantProtectionTechnologist.Pages.RecipesCreate
 {
@@ -30,10 +32,14 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
     {
         private CircleAnimator _circleAnimator;
         private DispatcherTimer _timer;
+        ApiClient apiClient = new ApiClient();
 
         ProductDto _selectedProduct;
         RecipesData[]? resultRecipes;
-        RecipesData? selectedRecipes;
+        RecipesData? selectedRecipe;
+        RecipeComponets[]? recipeComponets;
+        RawMaterialsData[]? rawMaterialsData;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -46,11 +52,11 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         private string? _activeRecipeFill;
         public string? activeRecipeFill { get => _activeRecipeFill; set { _activeRecipeFill = value; OnpropertyChanget(nameof(activeRecipeFill)); } }
 
-        private string? _statusColor;
-        public string? statusColor { get => _statusColor; set { _statusColor = value; OnpropertyChanget(nameof(statusColor)); } }
+        private string? _statusColorProduct;
+        public string? statusColorProduct { get => _statusColorProduct; set { _statusColorProduct = value; OnpropertyChanget(nameof(statusColorProduct)); } }
 
-        private string? _statusName;
-        public string? statusName { get => _statusName; set { _statusName = value; OnpropertyChanget(nameof(statusName)); } }
+        private string? _statusNameProduct;
+        public string? statusNameProduct { get => _statusNameProduct; set { _statusNameProduct = value; OnpropertyChanget(nameof(statusNameProduct)); } }
 
 
 
@@ -62,14 +68,22 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
         private string? _authorName;
         public string? authorName { get => _authorName; set { _authorName = value; OnpropertyChanget(nameof(authorName)); } }
+
+        private string? _statusColorRecipe;
+        public string? statusColorRecipe { get => _statusColorRecipe; set { _statusColorRecipe = value; OnpropertyChanget(nameof(statusColorRecipe)); } }
+
+        private string? _statusNameRecipe;
+        public string? statusNameRecipe { get => _statusNameRecipe; set { _statusNameRecipe = value; OnpropertyChanget(nameof(statusNameRecipe)); } }
+
+
+        private string? _comment;
+        public string? comment { get => _comment; set { _comment = value; OnpropertyChanget(nameof(comment)); } }
         public int idRecipe { get; set; }
         public int productId { get; set; }
 
         public string? comments { get; set; }
         public int statusId { get; set; }
         public int authorId { get; set; }
-        public string statusNameRecipes { get; set; } = null!;
-        public string statusColorRecipes { get; set; } = null!;
 
         public RecipesCreatePage(ProductDto selectedProduct)
         {
@@ -78,8 +92,8 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             name = selectedProduct.name;
             code = selectedProduct.code;
             activeRecipeFill = selectedProduct.activeRecipeFill;
-            statusColor = selectedProduct.statusColor;
-            statusName = selectedProduct.statusName;
+            statusColorProduct = selectedProduct.statusColor;
+            statusNameProduct = selectedProduct.statusName;
             _selectedProduct = selectedProduct;
 
             _circleAnimator = new CircleAnimator(Circle, orbitRadius: 40, centerX: 50, centerY: 50);
@@ -89,8 +103,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
             _timer.Tick += MoveCircle_Tick;
 
-            GetDataDbRecipesDat();
-
+            GetDataDbRecipes();
 
 
         }
@@ -100,39 +113,45 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void GetDataDbRecipesDat()
+        private async void GetDataDbRecipes()
         {
             try
             {
                 StartLoaded();
-                ApiClient apiClient = new ApiClient();
                 resultRecipes = await apiClient.GetDataRecipes();
 
                 if (resultRecipes != null)
                 {
-                    selectedRecipes = resultRecipes.FirstOrDefault(x => x.id == _selectedProduct.id);
-                    if (selectedRecipes != null)
+                    selectedRecipe = resultRecipes.FirstOrDefault(x => x.id == _selectedProduct.id);
+                    if (selectedRecipe != null && _selectedProduct.activeRecipeId != null)
                     {
-                        if (selectedRecipes.creationDate != null)
+                        FillRecipseDataGrid();
+                        FillRecipesComment();
+                        if (selectedRecipe.creationDate != null)
                         {
-                            dateCreate = selectedRecipes.creationDate;
+                            dateCreate = selectedRecipe.creationDate;
                             StopLoaded();
                         }
                         else
-                        {                          
+                        {
                             errorCreateDate.Visibility = Visibility.Visible;
                             StopLoaded();
                         }
-                        version = selectedRecipes.version;
-                        authorName = selectedRecipes.authorName;
+                        version = selectedRecipe.version;
+                        authorName = selectedRecipe.authorName;
+                        comment = selectedRecipe.comments;
+                        statusColorRecipe = selectedRecipe.statusColor;
+                        statusNameRecipe = selectedRecipe.statusName;
+
                         StopLoaded();
+
                     }
                     else
                     {
                         confirmationCard.Visibility = Visibility.Visible;
                         StopLoaded();
                         BlurEffectStart();
-                        
+
                     }
                 }
                 else
@@ -140,8 +159,8 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                     confirmationCard.Visibility = Visibility.Visible;
                     StopLoaded();
                     BlurEffectStart();
-                    
-                }             
+
+                }
             }
             catch
             {
@@ -149,51 +168,74 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 StopLoaded();
                 BlurEffectStart();
             }
+           
         }
 
-        //private async Task<RecipesData[]?> GetDataDbRawMaterial()
-        //{
-        //    try
-        //    {
-        //        StartLoaded();
+        private async Task<RawMaterialsData[]?> GetDataDbRawMaterials()
+        {
+            try
+            {
+                return await apiClient.GetDataDbRawMaterials();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка загрузки материалов");
+                return null;
+            }
+        }
 
-        //        ApiClient apiClient = new ApiClient();
+        private async Task<RecipeComponets[]?> GetDataDBRecipeComponents(int id)
+        {
+            try
+            {
+                return await apiClient.GetDataRecipeComponets(id);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка загрузки коммпонентов рецепта");
+                return null;
+            }
+        }
 
-        //        //RawMaterial[] resultRawMaterial = await apiClient.GetDataRecipes();
+        private async void FillRecipseDataGrid()
+        {
+            rawMaterialsData = await GetDataDbRawMaterials();
+            recipeComponets = await GetDataDBRecipeComponents(selectedRecipe.id);
 
-        //        StopLoaded();
+            List<RecipesDataGrid> recipesDataGrid = new List<RecipesDataGrid>();
 
-        //        return;
-        //    }
-        //    catch
-        //    {
-        //        StopLoaded();
+            if (rawMaterialsData != null && recipeComponets != null)
+            {
+                for (int i = 0; i < recipeComponets.Length; i++)
+                {
+                    int rawMaterial = rawMaterialsData.FirstOrDefault(x => x.id == recipeComponets[i].rawMaterialId).id;
+                    decimal tolerance = (recipeComponets[i].toleranceMax - recipeComponets[i].toleranceMin) / 2 / recipeComponets[i].percentage * 100;
+                    tolerance = Math.Round(tolerance, 2);
+                    var recipe = new RecipesDataGrid()
+                    {
+                        id = i + 1,
+                        code = rawMaterialsData[rawMaterial].code,
+                        name = rawMaterialsData[rawMaterial].name,
+                        percentage = recipeComponets[i].percentage,
+                        loadOrder = recipeComponets[i].loadOrder,
+                        tolerance = $"±{Convert.ToString(tolerance)}"
+                    };
+                    recipesDataGrid.Add(recipe);
+                }
+            }
+            else
+            {
+                errorDataGridRecipe.Visibility = Visibility.Visible;
+                recipeDataGrid.Visibility = Visibility.Collapsed;
+            }
+            recipeDataGrid.ItemsSource = recipesDataGrid;
+        }
 
-        //        return;
-        //    }
-        //}
-
-        //private async Task<RecipesData[]?> GetDataDbRawMaterial()
-        //{
-        //    try
-        //    {
-        //        StartLoaded();
-
-        //        ApiClient apiClient = new ApiClient();
-
-        //        //RawMaterial[] resultRawMaterial = await apiClient.GetDataRecipes();
-
-        //        StopLoaded();
-
-        //        return ;
-        //    }
-        //    catch
-        //    {
-        //        StopLoaded();
-
-        //        return ;
-        //    }
-        //}
+        private async void FillRecipesComment()
+        {
+           var statusRecipe = await apiClient.GetRecipesComment(selectedRecipe.id, "recipe");
+           statusDataGrid.ItemsSource = statusRecipe;
+        }
 
         private void StopLoaded()
         {
@@ -211,7 +253,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
         private void BlurEffectStart()
         {
-            blurBorder.Effect = new BlurEffect() { Radius = 5 };            
+            blurBorder.Effect = new BlurEffect() { Radius = 5 };
             blurBorder.IsHitTestVisible = false;
         }
 

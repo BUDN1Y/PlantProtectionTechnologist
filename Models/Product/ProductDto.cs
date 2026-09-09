@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantProtectionTechnologist.ApiGetCs
+namespace PlantProtectionTechnologist.Models.Product
 {
     public class ProductDto
     {
