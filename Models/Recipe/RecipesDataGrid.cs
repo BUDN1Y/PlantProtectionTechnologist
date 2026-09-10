@@ -11,6 +11,7 @@ namespace PlantProtectionTechnologist.Models.Recipe
         public int id {  get; set; }
         public string code { get; set; } = null!;
         public string name { get; set; } = null!;
+        public int? rawMaterialId { get; set; }
         public decimal percentage { get; set; }
         public int loadOrder {  get; set; }
         public string tolerance { get; set; }

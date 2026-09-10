@@ -195,7 +195,7 @@ namespace PlantProtectionTechnologist
         {
             try
             {
-                string url = $"getDataRecipeComponets?id={Uri.EscapeDataString(id.ToString())}";
+                string url = $"getDataRecipeComponets?id={Uri.EscapeDataString(Convert.ToString(id))}";
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
                 string content = await response.Content.ReadAsStringAsync();

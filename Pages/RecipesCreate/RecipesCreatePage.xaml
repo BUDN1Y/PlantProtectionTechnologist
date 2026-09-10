@@ -7,7 +7,7 @@
       xmlns:converters="clr-namespace:PlantProtectionTechnologist.Converts"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="950" d:DesignWidth="800" MinWidth="450"
+      d:DesignHeight="1250" d:DesignWidth="800" MinWidth="450"
       Title="RecipesCreatePage" KeepAlive="False">
 
     <Page.Resources>
@@ -15,16 +15,18 @@
     </Page.Resources>
 
     <Grid>
-        
-            <Border Name="blurBorder" >
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="0"/>
-                </Border.Effect>
+
+        <Border Name="blurBorder" >
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="0" ShadowDepth="0"/>
+            </Border.Effect>
             <ScrollViewer VerticalScrollBarVisibility="Hidden">
                 <Grid x:Name="paternGrid" Margin="10 0 0 0"
               Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -36,7 +38,7 @@
                     <!--Информация о продукте-->
                     <materialDesign:Card Grid.Row="0" Padding="10"
                                  Background="#F8F9FA">
-                        <Grid >
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition />
@@ -96,8 +98,81 @@
 
                     </Grid>
 
-                    <!--Основное окно DataGrid-->
+                    <!--Добавление шага-->
                     <Grid Grid.Row="2">
+                        <materialDesign:Card Margin="20" Padding="20" 
+                                             BorderBrush="Black" BorderThickness="1"
+                                             Background="#F8F9FA">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0 0 0 10">
+                                    <materialDesign:PackIcon Kind="ListBoxOutline" Width="20" Height="20" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Добавлениe нового шага" Margin="5 0 0 0" FontSize="20"/>
+                                </StackPanel>
+
+
+                                <StackPanel Grid.Row="1" Grid.Column="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Code" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Код компонента" FontSize="13" Margin="5 0 0 0"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding createCode}" FontSize="18" Margin="0 5 5 0" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CommaBoxOutline" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Наименования компонента" FontSize="13" Margin="5 0 0 0"/>
+                                    </StackPanel>
+
+                                    <ComboBox Name="rawMterialsName"  Margin="0 5 0 0" Background="#DCDCDC" SelectionChanged="rawMterialsName_SelectionChanged"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Percent" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Абсолютная доля %" FontSize="13" Margin="5 0 0 0"/>
+                                    </StackPanel>
+
+                                    <TextBox Name="rawMterialsPercentage"  Margin="0 5 5 0" Background="#DCDCDC"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Calculator" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Погрешность %" FontSize="13" Margin="5 0 0 0" />
+                                    </StackPanel>
+
+                                    <TextBox Name="rawMterialsTolerance"  Margin="0 5 0 0" Background="#DCDCDC"/>
+                                </StackPanel>
+
+                                <Button Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Width="170" >
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="AddBold" Foreground="White" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Добавить шаг" Foreground="White"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!--Основное окно DataGrid-->
+                    <Grid Grid.Row="3">
                         <materialDesign:Card Margin="20" Padding="20" 
                                          BorderBrush="Black" BorderThickness="1">
                             <Grid>
@@ -126,9 +201,9 @@
                                            Grid.Column="0" VerticalAlignment="Top"
                                            Margin="0 0 0 3"/>
                                     <ProgressBar Grid.Column="1" Height="20" 
-                                             Margin="5 0 5 0" />
-                                    <TextBlock Text="100%" Grid.Column="2"
-                                           FontSize="20" VerticalAlignment="Center"/>
+                                             Margin="5 0 5 0" Value="{Binding valueProgressBar}"/>
+                                    <TextBlock Text="{Binding valueTextBlock, StringFormat={}{0}%}" Grid.Column="2"
+                                               FontSize="20" VerticalAlignment="Center"/>
                                 </Grid>
 
                                 <Grid Grid.Row="2" Margin="0 10 0 0">
@@ -138,12 +213,74 @@
                                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                           Padding="10" >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding id}"/>
+                                            <DataGridTemplateColumn Header="№">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding id}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="Код">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding code}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="Наименование">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding name}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="Доля, %">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBox Text="{Binding percentage}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="Порядок загрузки">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding loadOrder}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Header="Допуск, %">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBox Text="{Binding tolerance}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+
+
+                                            <!--<DataGridTextColumn Header="№" Width="Auto" Binding="{Binding id}"/>
                                             <DataGridTextColumn Header="Код" Width="Auto" Binding="{Binding code}"/>
                                             <DataGridTextColumn Header="Наименование" Width="Auto" Binding="{Binding name}"/>
                                             <DataGridTextColumn Header="Доля, %" Width="Auto" Binding="{Binding percentage}"/>
                                             <DataGridTextColumn Header="Порядок загрузки" Width="Auto" Binding="{Binding loadOrder}"/>
-                                            <DataGridTextColumn Header="Допуск, %" Width="Auto" Binding="{Binding tolerance}"/>
+                                            <DataGridTextColumn Header="Допуск, %" Width="Auto" Binding="{Binding tolerance}"/>-->
                                         </DataGrid.Columns>
                                     </DataGrid>
                                     <TextBlock Text="Ошибка загрузки" VerticalAlignment="Center" 
@@ -155,7 +292,7 @@
                                        Margin="10">
                                     <TextBlock Text="Итого:"
                                            FontSize="20"/>
-                                    <TextBlock Text="34" Margin="5 0 0 0"
+                                    <TextBlock Text="{Binding valueTextBlock, StringFormat={}{0}%}" Margin="5 0 0 0"
                                            FontSize="20"/>
                                 </WrapPanel>
 
@@ -167,10 +304,11 @@
 
                                     <Button Grid.Column="0" Background="#FF4444" 
                                         Foreground="White" Width="200"
-                                        Content="Удалить выбраный шаг"/>
+                                        Content="Удалить выбраный шаг" Click="DeleteSelectedStep_Click"/>
                                     <Button Grid.Column="1" Background="#4FC3F7" 
                                         Foreground="White" Content="Создать шаг"
-                                        Width="200"/>
+                                        Width="200" Click="CreateStep_Click"/>
+
                                 </Grid>
                             </Grid>
                         </materialDesign:Card>
@@ -178,7 +316,7 @@
 
 
                     <!--Комментарий рецепта-->
-                    <Grid Grid.Row="3">
+                    <Grid Grid.Row="4">
                         <materialDesign:Card Margin="20" Padding="20" 
                      BorderBrush="Black" BorderThickness="1">
 
@@ -207,7 +345,7 @@
                         </materialDesign:Card>
                     </Grid>
 
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="5">
                         <materialDesign:Card Margin="20" Padding="20" 
                                              BorderBrush="Black" BorderThickness="1">
                             <Grid>
@@ -221,22 +359,39 @@
                                                              Width="20" VerticalAlignment="Center"/>
                                     <TextBlock Text="История статусов и изменений" Margin="10 0 0 0"
                                                FontSize="20"/>
-                                    
+
                                 </WrapPanel>
 
-                                <DataGrid Name="statusDataGrid" AutoGenerateColumns="True" 
+                                <DataGrid Name="statusDataGrid" AutoGenerateColumns="False" 
                                           IsReadOnly="True" HorizontalAlignment="Stretch"
                                           ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
                                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                           Padding="10" Grid.Row="1"
-                                          Margin="0 10 0 0">
-                                   
+                                          Margin="0 10 0 0" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn  Width="Auto" Binding="{Binding date}"/>
+                                        <DataGridTextColumn  Width="Auto" Binding="{Binding author}"/>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding mainInfo1}"/>
+                                                        <TextBlock Text="{Binding statusNameOld}" Foreground="{Binding statusColorOld}" Margin="5 0 0 0"/>
+                                                        <TextBlock Text="{Binding mainInfo2}" Margin="5 0 0 0"/>
+                                                        <TextBlock Text="{Binding statusNameNew}" Foreground="{Binding statusColorNew}" Margin="5 0 0 0"/>
+                                                        <TextBlock Text="{Binding mainInfo3}" Margin="5 0 0 0"/>
+                                                        <TextBlock Text="{Binding comment}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
                         </materialDesign:Card>
                     </Grid>
 
-                    <Grid Grid.Row="5" HorizontalAlignment="Right" Margin="10">
+                    <Grid Grid.Row="6" HorizontalAlignment="Right" Margin="10">
                         <WrapPanel Orientation="Horizontal">
 
                             <Button Margin="0 0 10 0"   Background="#2E86DE">
@@ -277,10 +432,26 @@
                         </WrapPanel>
                     </Grid>
 
+                    <Grid Grid.Row="7" Margin="10">
+                        <materialDesign:Card Background="#FFF8E1" Margin="0 10 0 0" UniformCornerRadius="12" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:PackIcon Height="20" Width="20" Kind="HelpCircle" Grid.Column="0" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="10 0 0 0">
+                                    <TextBlock Text="Важно!" FontWeight="SemiBold" Foreground="#1A2332"/>
+                                    <TextBlock Text="Рецептура может быть утверждена только при сумме долей компонентов равной 100%." Foreground="#666" FontSize="12"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
                 </Grid>
             </ScrollViewer>
         </Border>
-        
+
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
               x:Name="confirmationCard" Visibility="Collapsed">
@@ -346,6 +517,7 @@
                 </materialDesign:Card>
             </Border>
         </Grid>
+
 
     </Grid>
 </Page>

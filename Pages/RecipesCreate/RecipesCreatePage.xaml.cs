@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using PlantProtectionTechnologist.Converts;
 using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Models.Recipe;
 using PlantProtectionTechnologist.ModelsDB;
@@ -38,7 +39,9 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         RecipesData[]? resultRecipes;
         RecipesData? selectedRecipe;
         RecipeComponets[]? recipeComponets;
-        RawMaterialsData[]? rawMaterialsData;
+        RawMaterialsData[]? rawMaterialsData { get; set; }
+        List<RecipesDataGrid> recipesDataGrid;
+        ComboBox recipeCmb;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -75,15 +78,22 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         private string? _statusNameRecipe;
         public string? statusNameRecipe { get => _statusNameRecipe; set { _statusNameRecipe = value; OnpropertyChanget(nameof(statusNameRecipe)); } }
 
-
         private string? _comment;
         public string? comment { get => _comment; set { _comment = value; OnpropertyChanget(nameof(comment)); } }
-        public int idRecipe { get; set; }
-        public int productId { get; set; }
 
-        public string? comments { get; set; }
-        public int statusId { get; set; }
-        public int authorId { get; set; }
+        
+
+        private string _createCode;
+        public string createCode { get => _createCode; set { _createCode = value; OnpropertyChanget(nameof(createCode)); } }
+
+        private decimal _valueProgressBar;
+        public decimal valueProgressBar { get => _valueProgressBar; set { _valueProgressBar = value; OnpropertyChanget(nameof(valueProgressBar)); } }
+
+        private string _valueTextBlock;
+        public string valueTextBlock { get => _valueTextBlock; set { _valueTextBlock = value; OnpropertyChanget(nameof(valueTextBlock)); } }
+
+        private string _selectedNameCommponent;
+        public string selectedNameCommponent { get => _selectedNameCommponent; set { _selectedNameCommponent = value; OnpropertyChanget(nameof(selectedNameCommponent)); } }
 
         public RecipesCreatePage(ProductDto selectedProduct)
         {
@@ -168,7 +178,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 StopLoaded();
                 BlurEffectStart();
             }
-           
+
         }
 
         private async Task<RawMaterialsData[]?> GetDataDbRawMaterials()
@@ -202,14 +212,20 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             rawMaterialsData = await GetDataDbRawMaterials();
             recipeComponets = await GetDataDBRecipeComponents(selectedRecipe.id);
 
-            List<RecipesDataGrid> recipesDataGrid = new List<RecipesDataGrid>();
+            foreach (var item in rawMaterialsData)
+            {
+                rawMterialsName.Items.Add(item.name);
+            }
+
+
+            recipesDataGrid = new List<RecipesDataGrid>();
 
             if (rawMaterialsData != null && recipeComponets != null)
             {
                 for (int i = 0; i < recipeComponets.Length; i++)
                 {
                     int rawMaterial = rawMaterialsData.FirstOrDefault(x => x.id == recipeComponets[i].rawMaterialId).id;
-                    decimal tolerance = (recipeComponets[i].toleranceMax - recipeComponets[i].toleranceMin) / 2 / recipeComponets[i].percentage * 100;
+                    decimal tolerance = (recipeComponets[i].toleranceMax - recipeComponets[i].toleranceMin) / 2;
                     tolerance = Math.Round(tolerance, 2);
                     var recipe = new RecipesDataGrid()
                     {
@@ -228,13 +244,29 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 errorDataGridRecipe.Visibility = Visibility.Visible;
                 recipeDataGrid.Visibility = Visibility.Collapsed;
             }
+            CountPercentagesDataGrid();
             recipeDataGrid.ItemsSource = recipesDataGrid;
         }
 
         private async void FillRecipesComment()
         {
-           var statusRecipe = await apiClient.GetRecipesComment(selectedRecipe.id, "recipe");
-           statusDataGrid.ItemsSource = statusRecipe;
+            var statusRecipe = await apiClient.GetRecipesComment(selectedRecipe.id, "recipe");
+
+            for (int i = 0; i < statusRecipe.Length; i++)
+            {
+                if (statusRecipe[i].statusNameOld == null)
+                {
+                    statusRecipe[i].mainInfo1 = "Создан";
+                    statusRecipe[i].mainInfo3 = "-";
+                }
+                else
+                {
+                    statusRecipe[i].mainInfo1 = "Переведена из";
+                    statusRecipe[i].mainInfo2 = "в";
+                    statusRecipe[i].mainInfo3 = "-";
+                }
+            }
+            statusDataGrid.ItemsSource = statusRecipe;
         }
 
         private void StopLoaded()
@@ -274,6 +306,53 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             BlurEffectEnd();
             dateCreate = DateOnly.FromDateTime(DateTime.Today);
             authorName = ButtonManager.instance.fio;
+        }
+
+        private void CountPercentagesDataGrid()
+        {
+            decimal count = 0;
+            foreach (var item in recipesDataGrid)
+            {
+                count += item.percentage;
+            }
+            valueProgressBar = count;
+            valueTextBlock = Convert.ToString(count);
+        }
+
+        private void DeleteSelectedStep_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedProduct = (RecipesDataGrid)recipeDataGrid.SelectedItem;
+            int idRecipe;
+            if (selectedProduct != null)
+            {
+                idRecipe = selectedProduct.id;
+                recipesDataGrid.Remove(selectedProduct);
+                for (global::System.Int32 i = 0; i < recipesDataGrid.Count; i++)
+                {
+                    recipesDataGrid[i].id = i + 1;
+                    recipesDataGrid[i].loadOrder = i + 1;
+                }
+                recipeDataGrid.ItemsSource = null;  
+                recipeDataGrid.ItemsSource = recipesDataGrid;
+                CountPercentagesDataGrid();
+            }
+        }
+
+        private void CreateStep_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SelecteCommponet_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cmb = (ComboBox)sender;
+            var element = cmb.SelectedItem;
+        }
+
+        private void rawMterialsName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cmb = (ComboBox)sender;
+            //Сделать что бы textblokc показывал код.
         }
     }
 }

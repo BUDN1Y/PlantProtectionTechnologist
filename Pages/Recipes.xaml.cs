@@ -117,7 +117,10 @@ namespace PlantProtectionTechnologist.Pages
         private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var selectedProduct = recipesDataGrid.SelectedItem as ProductDto;
-            Navigate.pageRecipesFrame.Navigate(new RecipesCreatePage(selectedProduct));
+            if (selectedProduct != null)
+            {
+                Navigate.pageRecipesFrame.Navigate(new RecipesCreatePage(selectedProduct));
+            }
         }
 
         private void typeProduct_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -126,7 +129,7 @@ namespace PlantProtectionTechnologist.Pages
             ComboBox el = (ComboBox)sender;
             selectedIndexTypeProduct = el.SelectedIndex;
             selectedWordTypeProduct = el.SelectedItem.ToString();
-           
+
             ApplyFilters();
         }
 
@@ -169,11 +172,11 @@ namespace PlantProtectionTechnologist.Pages
                 isStatusProduct = true;
             }
 
-            if(!(isSeacrh && isTypeProduct && isStatusProduct))
+            if (!(isSeacrh && isTypeProduct && isStatusProduct))
             {
                 recipesDataGrid.ItemsSource = dataProduct.ToList();
             }
-                    
+
 
             recipesDataGrid.ItemsSource = dataProductBuffer.ToList();
         }
