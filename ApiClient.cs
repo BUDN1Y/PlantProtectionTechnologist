@@ -281,6 +281,30 @@ namespace PlantProtectionTechnologist
             }
         }
 
+        public async Task<bool> CreateRecipe(CreateRecipe createRecipe)
+        {
+            try
+            {
+                string url = $"createRecipe";
+
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync(url, createRecipe);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Ошибка API: {response.StatusCode}");
+                    return false;
+                }
+              
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}");
+                return false;
+            }
+        }
+
+
 
 
 

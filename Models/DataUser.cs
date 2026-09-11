@@ -9,7 +9,7 @@ namespace PlantProtectionTechnologist.Models
 {
     public class DataUser
     {
-        public int? id { get; set; }
+        public int id { get; set; }
         public string fullName { get; set; } = null!;
         public string roleName { get; set; } = null!;
         public int roleId { get; set; }

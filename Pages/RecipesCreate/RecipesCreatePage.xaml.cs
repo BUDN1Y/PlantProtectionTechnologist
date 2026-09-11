@@ -40,9 +40,13 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         RecipesData? selectedRecipe;
         RecipeComponets[]? recipeComponets;
         RawMaterialsData[]? rawMaterialsData { get; set; }
-        List<RecipesDataGrid> recipesDataGrid;
-        ComboBox recipeCmb;
-
+        List<RecipesDataGrid> recipesDataGrid = new List<RecipesDataGrid>();
+        decimal absolutePercentNewStep;
+        decimal tolerancepercentNewStep;
+        string selectedMaterialNewStpe;
+        bool isCreating = false;
+        string tipEditText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Все кнопки кроме \"Редактировать\" фиксируют только статус рецепта !";
+        string tipCreateText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Перед созданием рецепта следует предварительно выбрать его статус.";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -81,7 +85,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         private string? _comment;
         public string? comment { get => _comment; set { _comment = value; OnpropertyChanget(nameof(comment)); } }
 
-        
+
 
         private string _createCode;
         public string createCode { get => _createCode; set { _createCode = value; OnpropertyChanget(nameof(createCode)); } }
@@ -94,6 +98,12 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
         private string _selectedNameCommponent;
         public string selectedNameCommponent { get => _selectedNameCommponent; set { _selectedNameCommponent = value; OnpropertyChanget(nameof(selectedNameCommponent)); } }
+
+        private string _createOrEditButtonContent;
+        public string createOrEditButtonContent { get => _createOrEditButtonContent; set { _createOrEditButtonContent = value; OnpropertyChanget(nameof(createOrEditButtonContent)); } }
+
+        private string _tipTextCreateOrEdit;
+        public string tipTextCreateOrEdit { get => _tipTextCreateOrEdit; set { _tipTextCreateOrEdit = value; OnpropertyChanget(nameof(tipTextCreateOrEdit)); } }
 
         public RecipesCreatePage(ProductDto selectedProduct)
         {
@@ -132,8 +142,10 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
                 if (resultRecipes != null)
                 {
-                    selectedRecipe = resultRecipes.FirstOrDefault(x => x.id == _selectedProduct.id);
-                    if (selectedRecipe != null && _selectedProduct.activeRecipeId != null)
+                    tipTextCreateOrEdit = tipEditText;
+                    createOrEditButtonContent = "Редактировть";
+                    selectedRecipe = resultRecipes.FirstOrDefault(x => x.productId == _selectedProduct.id);
+                    if (selectedRecipe != null)
                     {
                         FillRecipseDataGrid();
                         FillRecipesComment();
@@ -207,36 +219,60 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             }
         }
 
+        private void AddComboBoxMaterials()
+        {
+            foreach (var item in rawMaterialsData)
+            {
+                rawMterialsName.Items.Add(item.name);
+            }
+        }
+
         private async void FillRecipseDataGrid()
         {
             rawMaterialsData = await GetDataDbRawMaterials();
             recipeComponets = await GetDataDBRecipeComponents(selectedRecipe.id);
 
-            foreach (var item in rawMaterialsData)
-            {
-                rawMterialsName.Items.Add(item.name);
-            }
+            AddComboBoxMaterials();
 
 
-            recipesDataGrid = new List<RecipesDataGrid>();
 
             if (rawMaterialsData != null && recipeComponets != null)
             {
-                for (int i = 0; i < recipeComponets.Length; i++)
+                var allLoadeOrderRecipe = recipeComponets.Where(x => x.recipeId == selectedRecipe.id).ToArray();
+
+                for (int i = 0; i < allLoadeOrderRecipe.Length; i++)
                 {
-                    int rawMaterial = rawMaterialsData.FirstOrDefault(x => x.id == recipeComponets[i].rawMaterialId).id;
-                    decimal tolerance = (recipeComponets[i].toleranceMax - recipeComponets[i].toleranceMin) / 2;
+                    var rawMaterial = rawMaterialsData.FirstOrDefault(x => x.id == allLoadeOrderRecipe[i].rawMaterialId);
+
+                    if (rawMaterial == null)
+                    {
+                        var recipe1 = new RecipesDataGrid()
+                        {
+                            id = i + 1,
+                            code = "???",
+                            name = "Материал не найден",
+                            percentage = 0,
+                            loadOrder = 0,
+                            tolerance = $"0"
+                        };
+                        recipesDataGrid.Add(recipe1);
+                        continue;
+                    }
+
+                    decimal tolerance = (allLoadeOrderRecipe[i].toleranceMax - allLoadeOrderRecipe[i].toleranceMin) / 2;
                     tolerance = Math.Round(tolerance, 2);
                     var recipe = new RecipesDataGrid()
                     {
                         id = i + 1,
-                        code = rawMaterialsData[rawMaterial].code,
-                        name = rawMaterialsData[rawMaterial].name,
-                        percentage = recipeComponets[i].percentage,
-                        loadOrder = recipeComponets[i].loadOrder,
+                        code = rawMaterial.code,
+                        name = rawMaterial.name,
+                        percentage = allLoadeOrderRecipe[i].percentage,
+                        loadOrder = allLoadeOrderRecipe[i].loadOrder,
                         tolerance = $"±{Convert.ToString(tolerance)}"
                     };
+
                     recipesDataGrid.Add(recipe);
+
                 }
             }
             else
@@ -300,12 +336,21 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             _circleAnimator.Move();
         }
 
-        private void AddNewRecipe_Click(object sender, RoutedEventArgs e)
+        private async void AddNewRecipe_Click(object sender, RoutedEventArgs e)
         {
             confirmationCard.Visibility = Visibility.Collapsed;
             BlurEffectEnd();
             dateCreate = DateOnly.FromDateTime(DateTime.Today);
             authorName = ButtonManager.instance.fio;
+            StartLoaded();
+            rawMaterialsData = await GetDataDbRawMaterials();
+            StopLoaded();
+            AddComboBoxMaterials();
+            valueProgressBar = 0;
+            valueTextBlock = "0";
+            createOrEditButtonContent = "Создать";
+            isCreating = true;
+            tipTextCreateOrEdit = tipCreateText;
         }
 
         private void CountPercentagesDataGrid()
@@ -332,7 +377,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                     recipesDataGrid[i].id = i + 1;
                     recipesDataGrid[i].loadOrder = i + 1;
                 }
-                recipeDataGrid.ItemsSource = null;  
+                recipeDataGrid.ItemsSource = null;
                 recipeDataGrid.ItemsSource = recipesDataGrid;
                 CountPercentagesDataGrid();
             }
@@ -340,19 +385,201 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
 
         private void CreateStep_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void SelecteCommponet_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var cmb = (ComboBox)sender;
-            var element = cmb.SelectedItem;
+            createStep.Focus();
+            createStep.BringIntoView();
         }
 
         private void rawMterialsName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var cmb = (ComboBox)sender;
-            //Сделать что бы textblokc показывал код.
+            var selectedMateriasl = cmb.SelectedItem.ToString();
+            selectedMaterialNewStpe = (selectedMateriasl == null) ? "Не найдено" : selectedMateriasl;
+
+            if (rawMaterialsData != null)
+            {
+                createCode = rawMaterialsData.First(x => x.name == selectedMateriasl).code;
+            }
+            else
+            {
+                createCode = "Не найдено";
+            }
         }
+
+        private void CheckNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+
+            if (textBox.Text == "")
+            {
+                if (textBox.Name == "rawMterialsPercentage")
+                {
+                    errorPercentAbsolut.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    errorPercentTolerance.Visibility = Visibility.Hidden;
+                }
+                return;
+            }
+
+            try
+            {
+                string content = textBox.Text.Replace(".", ",");
+                decimal number = Convert.ToDecimal(content);
+                if (number < 0 || number > 100)
+                {
+                    if (textBox.Name == "rawMterialsPercentage")
+                    {
+                        errorPercentAbsolut.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        errorPercentTolerance.Visibility = Visibility.Visible;
+                    }
+                    return;
+                }
+
+                if (textBox.Name == "rawMterialsPercentage")
+                {
+                    errorPercentAbsolut.Visibility = Visibility.Hidden;
+                    absolutePercentNewStep = number;
+                }
+                else
+                {
+                    errorPercentTolerance.Visibility = Visibility.Hidden;
+                    tolerancepercentNewStep = number;
+                }
+            }
+            catch
+            {
+                if (textBox.Name == "rawMterialsPercentage")
+                {
+                    errorPercentAbsolut.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    errorPercentTolerance.Visibility = Visibility.Visible;
+                }
+                return;
+            }
+        }
+
+        private void AddStep_Click(object sender, RoutedEventArgs e)
+        {
+            if (valueProgressBar + absolutePercentNewStep > 100)
+            {
+                errorAddNewStep.Visibility = Visibility.Visible;
+                return;
+            }
+            else if (selectedMaterialNewStpe == null)
+            {
+                errorSelectedMaterialNewStep.Visibility = Visibility.Visible;
+                return;
+            }
+
+            RecipesDataGrid newElement = new RecipesDataGrid()
+            {
+                id = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().id + 1,
+                code = createCode,
+                name = selectedMaterialNewStpe,
+                percentage = Math.Round(absolutePercentNewStep, 2),
+                loadOrder = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().loadOrder + 1,
+                tolerance = $"±{tolerancepercentNewStep}",
+                toleranceMax = absolutePercentNewStep + Convert.ToInt32(tolerancepercentNewStep),
+                toleranceMin = absolutePercentNewStep - Convert.ToInt32(tolerancepercentNewStep)
+            };
+
+
+            recipesDataGrid.Add(newElement);
+            recipeDataGrid.ItemsSource = null;
+            recipeDataGrid.ItemsSource = recipesDataGrid;
+            CountPercentagesDataGrid();
+            errorSelectedMaterialNewStep.Visibility = Visibility.Collapsed;
+            errorAddNewStep.Visibility = Visibility.Hidden;
+        }
+
+        private void StatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            string? tag = button.Tag as string;
+            if (isCreating)
+            {
+                CreateRecipe(tag);
+            }
+            else
+            {
+
+            }
+        }
+
+        private void CreateOrEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateRecipe(null);
+        }
+
+        private async void CreateRecipe(string? tag)
+        {
+            int tagDefault;
+            bool isEdding = false;
+            bool result = false;
+            if (tag != null)
+            {
+                tagDefault = Convert.ToInt32(tag);
+            }
+            else if (tag == null && selectedRecipe != null)
+            {
+                if (selectedRecipe.statusId != 0)
+                {
+                    tagDefault = selectedRecipe.statusId;
+                    isEdding = true;
+                }
+                else
+                {
+                    tagDefault = 4;
+                }
+            }
+            else
+            {
+                tagDefault = 4;
+            }
+
+            CreateRecipe newRecipe = new CreateRecipe()
+            {
+                productId = _selectedProduct.id,
+                version = 1,
+                statusId = tagDefault,
+                authorId = ButtonManager.instance.user.id,
+                creationDate = DateOnly.FromDateTime(DateTime.Now),
+                comments = comment,
+                componets = recipesDataGrid.ToArray()
+            };
+            if (isEdding)
+            {
+
+                result = await apiClient.CreateRecipe(newRecipe);
+            }
+            else
+            {
+                //api функция которая будет посылать запрос на изменения рецепта
+            }
+
+            if (result)
+            {
+                successfully.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Ошибка");
+            }
+        }
+
+        private void CloseCardSuccessfully_Click(object sender, RoutedEventArgs e)
+        {
+            successfully.Visibility = Visibility.Collapsed;
+        }
+
+        //4 Черновик; 5 На согласовании; 6 Утверждена; 7 Архивирована;  
+
     }
 }
+
