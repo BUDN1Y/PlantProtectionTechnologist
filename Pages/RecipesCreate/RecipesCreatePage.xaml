@@ -227,6 +227,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
 
                                 <WrapPanel Orientation="Horizontal" Grid.Row="0">
@@ -271,7 +272,12 @@
                                                Name="errorDataGridRecipe"/>
                                 </Grid>
 
-                                <WrapPanel Orientation="Horizontal" Grid.Row="3" 
+                                <Grid x:Name="errorDuplicate" Visibility="Hidden" Grid.Row="3" Margin="10 0">
+                                    <TextBlock Text="Сырьё совпадает! Не должно быть дубликатов." Foreground="#ff4444"/>
+                                    <Rectangle Fill="Red" HorizontalAlignment="Stretch" Margin="0 15 0 0" Height="2"/>
+                                </Grid>
+
+                                <WrapPanel Orientation="Horizontal" Grid.Row="4" 
                                        Margin="10">
                                     <TextBlock Text="Итого:"
                                            FontSize="20"/>
@@ -279,7 +285,7 @@
                                            FontSize="20"/>
                                 </WrapPanel>
 
-                                <Grid Grid.Row="4" Margin="10" Cursor="">
+                                <Grid Grid.Row="5" Margin="10" Cursor="">
 
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Grid.Column="0" Background="#FF4444" 
@@ -387,7 +393,8 @@
                             </Button>
 
                             <Button Margin="0 0 10 0"  Background="#3498DB" 
-                                    Click="StatusButton_Click" Tag="5">
+                                    Click="StatusButton_Click" Tag="5"
+                                    Name="buttonApproval">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Export" Foreground="White" VerticalAlignment="Center"/>
@@ -397,7 +404,8 @@
                             </Button>
 
                             <Button Margin="0 0 10 0"  Background="#27AE60" 
-                                    Click="StatusButton_Click" Tag="6">
+                                    Click="StatusButton_Click" Tag="6"
+                                    Name="buttonConfirm">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="SuccessBold" Foreground="White" VerticalAlignment="Center"/>
@@ -407,7 +415,8 @@
                             </Button>
 
                             <Button Margin="0 0 10 0"  Background="#95A5A6" 
-                                    Click="StatusButton_Click" Tag="7">
+                                    Click="StatusButton_Click" Tag="7"
+                                    Name="buttonDelete">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="PackageVariant" Foreground="White" VerticalAlignment="Center"/>

@@ -1,7 +1,10 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.IdentityModel.Tokens;
+using PlantProtectionTechnologist.ApiClient;
 using PlantProtectionTechnologist.Converts;
+using PlantProtectionTechnologist.Models;
 using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Models.Recipe;
 using PlantProtectionTechnologist.ModelsDB;
@@ -33,7 +36,19 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
     {
         private CircleAnimator _circleAnimator;
         private DispatcherTimer _timer;
-        ApiClient apiClient = new ApiClient();
+        ApiRecipe apiClient = new ApiRecipe();
+
+        DataUser user = new DataUser()
+        {
+            id = 1,
+            fullName = "Иванов Петр Сергеевич",
+            roleName = "technologist",
+            roleId = 1,
+            departmentDescription = "dassda",
+            departmentName = "dasda",
+            roleDescription = "das",
+            isActive = true
+        };
 
         ProductDto _selectedProduct;
         RecipesData[]? resultRecipes;
@@ -45,8 +60,8 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         decimal tolerancepercentNewStep;
         string selectedMaterialNewStpe;
         bool isCreating = false;
-        string tipEditText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Все кнопки кроме \"Редактировать\" фиксируют только статус рецепта !";
-        string tipCreateText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Перед созданием рецепта следует предварительно выбрать его статус.";
+        string tipEditText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Не должно быть совпадающих продуктов ! Все кнопки кроме \"Редактировать\" фиксируют только статус рецепта !";
+        string tipCreateText = "Утверждение рецептуры допускается только в том случае, если сумма долей всех компонентов составляет 100 %. Не должно быть совпадающих продуктов ! Перед созданием рецепта следует предварительно выбрать его статус.";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -170,7 +185,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                     }
                     else
                     {
-                        confirmationCard.Visibility = Visibility.Visible;
+                        SwitchEditToCreate();
                         StopLoaded();
                         BlurEffectStart();
 
@@ -178,7 +193,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 }
                 else
                 {
-                    confirmationCard.Visibility = Visibility.Visible;
+                    SwitchEditToCreate();
                     StopLoaded();
                     BlurEffectStart();
 
@@ -186,11 +201,19 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             }
             catch
             {
-                confirmationCard.Visibility = Visibility.Visible;
+                SwitchEditToCreate();
                 StopLoaded();
                 BlurEffectStart();
             }
 
+        }
+
+        private void SwitchEditToCreate()
+        {
+            confirmationCard.Visibility = Visibility.Visible;
+            buttonApproval.Visibility = Visibility.Collapsed;
+            buttonConfirm.Visibility = Visibility.Collapsed;
+            buttonDelete.Visibility = Visibility.Collapsed;
         }
 
         private async Task<RawMaterialsData[]?> GetDataDbRawMaterials()
@@ -249,6 +272,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                         var recipe1 = new RecipesDataGrid()
                         {
                             id = i + 1,
+                            rawMaterialId = 0,
                             code = "???",
                             name = "Материал не найден",
                             percentage = 0,
@@ -264,6 +288,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                     var recipe = new RecipesDataGrid()
                     {
                         id = i + 1,
+                        rawMaterialId = rawMaterial.id,
                         code = rawMaterial.code,
                         name = rawMaterial.name,
                         percentage = allLoadeOrderRecipe[i].percentage,
@@ -368,6 +393,12 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         {
             var selectedProduct = (RecipesDataGrid)recipeDataGrid.SelectedItem;
             int idRecipe;
+
+            if (recipesDataGrid.Count == recipesDataGrid.Distinct().Count())
+            {
+                errorDuplicate.Visibility = Visibility.Hidden;
+            }
+
             if (selectedProduct != null)
             {
                 idRecipe = selectedProduct.id;
@@ -409,7 +440,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
         {
             var textBox = (TextBox)sender;
 
-            if (textBox.Text == "")
+            if (string.IsNullOrEmpty(textBox.Text))
             {
                 if (textBox.Name == "rawMterialsPercentage")
                 {
@@ -426,7 +457,7 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
             {
                 string content = textBox.Text.Replace(".", ",");
                 decimal number = Convert.ToDecimal(content);
-                if (number < 0 || number > 100)
+                if (number <= 0 || number > 100)
                 {
                     if (textBox.Name == "rawMterialsPercentage")
                     {
@@ -476,72 +507,85 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 errorSelectedMaterialNewStep.Visibility = Visibility.Visible;
                 return;
             }
-
-            RecipesDataGrid newElement = new RecipesDataGrid()
+            else if (string.IsNullOrEmpty(rawMterialsPercentage.Text))
             {
-                id = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().id + 1,
-                code = createCode,
-                name = selectedMaterialNewStpe,
-                percentage = Math.Round(absolutePercentNewStep, 2),
-                loadOrder = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().loadOrder + 1,
-                tolerance = $"±{tolerancepercentNewStep}",
-                toleranceMax = absolutePercentNewStep + Convert.ToInt32(tolerancepercentNewStep),
-                toleranceMin = absolutePercentNewStep - Convert.ToInt32(tolerancepercentNewStep)
-            };
+                errorPercentAbsolut.Visibility = Visibility.Visible;
+                return;
+            }
+            else if (string.IsNullOrEmpty(rawMterialsPercentage.Text))
+            {
+                tolerancepercentNewStep = 0;
+            }
 
+            if (rawMaterialsData != null)
+            {
+                RecipesDataGrid newElement = new RecipesDataGrid()
+                {
+                    id = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().id + 1,
+                    rawMaterialId = rawMaterialsData.First(x => x.name == selectedMaterialNewStpe).id,
+                    code = createCode,
+                    name = selectedMaterialNewStpe,
+                    percentage = Math.Round(absolutePercentNewStep, 2),
+                    loadOrder = (recipesDataGrid.Count == 0) ? 1 : recipesDataGrid.Last().loadOrder + 1,
+                    tolerance = $"±{tolerancepercentNewStep}",
+                    toleranceMax = absolutePercentNewStep + Convert.ToInt32(tolerancepercentNewStep),
+                    toleranceMin = absolutePercentNewStep - Convert.ToInt32(tolerancepercentNewStep)
+                };
+                if (recipesDataGrid.Any(x => x.name == newElement.name))
+                {
+                    errorDuplicate.Visibility = Visibility.Visible;
+                }
+                else if (recipesDataGrid.Count == recipesDataGrid.Distinct().Count())
+                {
+                    errorDuplicate.Visibility = Visibility.Hidden;
+                }
 
-            recipesDataGrid.Add(newElement);
-            recipeDataGrid.ItemsSource = null;
-            recipeDataGrid.ItemsSource = recipesDataGrid;
-            CountPercentagesDataGrid();
-            errorSelectedMaterialNewStep.Visibility = Visibility.Collapsed;
-            errorAddNewStep.Visibility = Visibility.Hidden;
+                recipesDataGrid.Add(newElement);
+                recipeDataGrid.ItemsSource = null;
+                recipeDataGrid.ItemsSource = recipesDataGrid;
+                CountPercentagesDataGrid();
+                errorSelectedMaterialNewStep.Visibility = Visibility.Collapsed;
+                errorAddNewStep.Visibility = Visibility.Hidden;
+
+            }
+            else
+            {
+                MessageBox.Show("Ошибка не найдены Материалы");
+            }
+
         }
 
-        private void StatusButton_Click(object sender, RoutedEventArgs e)
+        private async void StatusButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             string? tag = button.Tag as string;
-            if (isCreating)
+            if (tag != null && selectedRecipe != null)
             {
-                CreateRecipe(tag);
+                await apiClient.EditStatusRecipe(selectedRecipe.id, tag);
+            }
+            Navigate.pageRecipesFrame.Navigate(new RecipesCreatePage(_selectedProduct));
+
+        }
+
+        private async void CreateOrEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (await CreateRecipe())
+            {
+                BlurEffectStart();
+                successfully.Visibility = Visibility.Visible;
             }
             else
             {
-
+                MessageBox.Show("Продукт не создан");
             }
         }
 
-        private void CreateOrEditButton_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> CreateRecipe()
         {
-            CreateRecipe(null);
-        }
-
-        private async void CreateRecipe(string? tag)
-        {
-            int tagDefault;
+            int tagDefault = 4;
             bool isEdding = false;
             bool result = false;
-            if (tag != null)
-            {
-                tagDefault = Convert.ToInt32(tag);
-            }
-            else if (tag == null && selectedRecipe != null)
-            {
-                if (selectedRecipe.statusId != 0)
-                {
-                    tagDefault = selectedRecipe.statusId;
-                    isEdding = true;
-                }
-                else
-                {
-                    tagDefault = 4;
-                }
-            }
-            else
-            {
-                tagDefault = 4;
-            }
 
             CreateRecipe newRecipe = new CreateRecipe()
             {
@@ -553,29 +597,35 @@ namespace PlantProtectionTechnologist.Pages.RecipesCreate
                 comments = comment,
                 componets = recipesDataGrid.ToArray()
             };
-            if (isEdding)
+            if (!isEdding)
             {
 
                 result = await apiClient.CreateRecipe(newRecipe);
             }
             else
             {
-                //api функция которая будет посылать запрос на изменения рецепта
+                if (selectedRecipe != null)
+                {
+                    result = await apiClient.EditRecipe(selectedRecipe.id, newRecipe);
+                }
             }
 
             if (result)
             {
                 successfully.Visibility = Visibility.Visible;
+                return result;
             }
             else
             {
                 MessageBox.Show("Ошибка");
+                return false;
             }
         }
 
         private void CloseCardSuccessfully_Click(object sender, RoutedEventArgs e)
         {
             successfully.Visibility = Visibility.Collapsed;
+            Navigate.pageRecipesFrame.Navigate(new RecipesCreatePage(_selectedProduct));
         }
 
         //4 Черновик; 5 На согласовании; 6 Утверждена; 7 Архивирована;  

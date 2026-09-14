@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using PlantProtectionTechnologist.ApiClient;
 
 
 namespace PlantProtectionTechnologist.Pages
@@ -32,7 +33,7 @@ namespace PlantProtectionTechnologist.Pages
         ConfirmationProduct newProduct;
         bool isLoaded = false;
 
-        ApiClient apiClient = new ApiClient();
+        ApiProduct apiClient = new ApiProduct();
 
         VisualAddEditProduct visua;
 

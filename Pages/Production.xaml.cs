@@ -2,7 +2,11 @@
 using CsvHelper;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
+using PlantProtectionTechnologist.ApiClient;
+using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Pages;
+using PlantProtectionTechnologist.Pages.ProductActions;
+using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,9 +30,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using static System.Data.DataTable;
-using PlantProtectionTechnologist.Pages.ProductActions;
-using PlantProtectionTechnologist.Scipts;
-using PlantProtectionTechnologist.Models.Product;
 
 namespace PlantProtectionTechnologist
 {
@@ -43,7 +44,7 @@ namespace PlantProtectionTechnologist
         List<ProductDto> dataProduction = new List<ProductDto>();
         List<ProductDto> dataProductionBuffer = new List<ProductDto>();
 
-        ApiClient apiClient = new ApiClient();
+        ApiProduct apiClient = new ApiProduct();
 
         string[] filterTypeName = new string[] { "Все типы", "Гербицид", "Инсектицид", "Фунгицид", "Регулятор роста", "Протравитель" };
 
@@ -115,7 +116,7 @@ namespace PlantProtectionTechnologist
                 Loaded.Visibility = Visibility.Visible;
                 blurBorder.IsHitTestVisible = false;
 
-                ApiClient apiClient = new ApiClient();
+                ApiProduct apiClient = new ApiProduct();
                 ProductDto[] result = await apiClient.GetDataProduction();
                 dataProduction = result.ToList();
                 dataProductionBuffer = dataProduction.ToList();
@@ -313,7 +314,7 @@ namespace PlantProtectionTechnologist
                 }
 
 
-                //9 удалить 2 восстановить 3 подтвердить
+                //1 черновик 2 Активный  3 Архивирован
             }
         }
     }

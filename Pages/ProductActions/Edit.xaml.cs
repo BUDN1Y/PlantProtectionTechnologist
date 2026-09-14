@@ -1,4 +1,5 @@
-﻿using PlantProtectionTechnologist.Models.Product;
+﻿using PlantProtectionTechnologist.ApiClient;
+using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace PlantProtectionTechnologist.Pages.ProductActions
         ConfirmationProduct editProduct;
         bool isLoaded = false;
 
-        ApiClient apiClient = new ApiClient();
+        ApiProduct apiClient = new ApiProduct();
 
         VisualAddEditProduct visua;
 

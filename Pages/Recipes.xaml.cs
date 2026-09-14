@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using PlantProtectionTechnologist.ApiClient;
 using PlantProtectionTechnologist.Models.Product;
 using PlantProtectionTechnologist.Pages.RecipesCreate;
 using PlantProtectionTechnologist.Scipts;
@@ -72,7 +73,7 @@ namespace PlantProtectionTechnologist.Pages
                 Loaded.Visibility = Visibility.Visible;
                 blurBorder.IsHitTestVisible = false;
 
-                ApiClient apiClient = new ApiClient();
+                ApiProduct apiClient = new ApiProduct();
                 ProductDto[]? result = await apiClient.GetDataProduction();
                 if (result != null)
                 {

@@ -1,4 +1,5 @@
-﻿using PlantProtectionTechnologist.Models;
+﻿using PlantProtectionTechnologist.ApiClient;
+using PlantProtectionTechnologist.Models;
 using PlantProtectionTechnologist.Scipts;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace PlantProtectionTechnologist.Pages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            ApiClient apiClient = new ApiClient();
+            ApiAuthorization apiClient = new ApiAuthorization();
 
             _timer.Start();
             blurBorder.Effect = new BlurEffect() { Radius = 5 };

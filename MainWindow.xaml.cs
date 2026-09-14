@@ -21,8 +21,8 @@ namespace PlantProtectionTechnologist
         {
             InitializeComponent();
             Navigate.mainFrame = mainFrame;
-            //mainFrame.Navigate(new Authorization());
-            mainFrame.Navigate(new Main());
+            mainFrame.Navigate(new Authorization());
+            //mainFrame.Navigate(new Main());
         }
 
         

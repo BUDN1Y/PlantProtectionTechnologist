@@ -35,6 +35,7 @@ namespace PlantProtectionTechnologist.Pages
         {
             InitializeComponent();
             _isRole = isRole;
+            closeAcc.Visibility = Visibility.Visible;
         }
    
         private void PageSwitch_Click(object sender, MouseButtonEventArgs e)
@@ -86,6 +87,11 @@ namespace PlantProtectionTechnologist.Pages
             mainBorder.Effect = new BlurEffect() { Radius = 0 };
             mainBorder.IsHitTestVisible = true;
             confirmationCard.Visibility = Visibility.Collapsed;
+        }
+
+        private void ConfirmationClose_Click(object sender, RoutedEventArgs e)
+        {
+            Navigate.mainFrame.Navigate(new Authorization());
         }
     }
 }
