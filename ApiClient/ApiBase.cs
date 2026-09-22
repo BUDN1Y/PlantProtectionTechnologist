@@ -20,15 +20,8 @@ namespace PlantProtectionTechnologist.ApiClient
         {
 
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7223/api/appTechnologi/");
+            _httpClient.BaseAddress = new Uri("http://localhost:5026/api/appTechnologi/");
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
-
-        
-
-        
-        
-
-
     }
 }
